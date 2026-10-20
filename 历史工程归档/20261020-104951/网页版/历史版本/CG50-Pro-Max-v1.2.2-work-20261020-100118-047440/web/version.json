@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.2.2",
+  "releaseId": "v1.2.2-20261020-100118-047440",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "修复闲置计时过快，优化存档、按键和更新流程。"
+  ],
+  "notesEn": [
+    "Fixed accelerated idle timing and improved saving, input, and updates."
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}

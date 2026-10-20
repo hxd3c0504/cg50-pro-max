@@ -1,0 +1,441 @@
+#!/usr/bin/env python3
+"""Cross-language CPU conformance suite (Python oracle -> frozen golden -> Go test).
+
+Defines curated, edge-case-heavy instruction cases, runs each on the (reference)
+Python CPU, and freezes inputs + expected outputs into emu/conformance.json. Both
+emu/test_cpu.py and emu_go/conformance_test.go replay the SAME frozen cases against
+their CPU and assert the outputs match. So porting/refactoring is validated by
+`pytest` / `go test`, not by ad-hoc whole-program runs.
+
+Run:  python emu/conformance_gen.py        # regenerate conformance.json
+"""
+import os, sys, json
+sys.path.insert(0, os.path.dirname(__file__))
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "re"))
+from memory import Memory
+from mmio import MMIOBus
+from cpu import CPU
+
+OUT = os.path.join(os.path.dirname(__file__), "conformance.json")
+CODE = 0x8C001000
+DATA = 0x8C010000
+VBR = 0x8C002000
+
+# ---- SH-4 instruction encoders (16-bit) ----
+def mov_i(n, i):   return 0xE000 | (n << 8) | (i & 0xFF)
+def mov(m, n):     return 0x6003 | (n << 8) | (m << 4)
+def add(m, n):     return 0x300C | (n << 8) | (m << 4)
+def addi(n, i):    return 0x7000 | (n << 8) | (i & 0xFF)
+def addc(m, n):    return 0x300E | (n << 8) | (m << 4)
+def addv(m, n):    return 0x300F | (n << 8) | (m << 4)
+def sub(m, n):     return 0x3008 | (n << 8) | (m << 4)
+def subc(m, n):    return 0x300A | (n << 8) | (m << 4)
+def subv(m, n):    return 0x300B | (n << 8) | (m << 4)
+def neg(m, n):     return 0x600B | (n << 8) | (m << 4)
+def negc(m, n):    return 0x600A | (n << 8) | (m << 4)
+def div0s(m, n):   return 0x2007 | (n << 8) | (m << 4)
+DIV0U = 0x0019
+def div1(m, n):    return 0x3004 | (n << 8) | (m << 4)
+def cmpeq(m, n):   return 0x3000 | (n << 8) | (m << 4)
+def cmphs(m, n):   return 0x3002 | (n << 8) | (m << 4)
+def cmpge(m, n):   return 0x3003 | (n << 8) | (m << 4)
+def cmphi(m, n):   return 0x3006 | (n << 8) | (m << 4)
+def cmpgt(m, n):   return 0x3007 | (n << 8) | (m << 4)
+def cmppz(n):      return 0x4011 | (n << 8)
+def cmppl(n):      return 0x4015 | (n << 8)
+def cmpstr(m, n):  return 0x200C | (n << 8) | (m << 4)
+def cmpim(i):      return 0x8800 | (i & 0xFF)
+def tst(m, n):     return 0x2008 | (n << 8) | (m << 4)
+def and_(m, n):    return 0x2009 | (n << 8) | (m << 4)
+def or_(m, n):     return 0x200B | (n << 8) | (m << 4)
+def xor(m, n):     return 0x200A | (n << 8) | (m << 4)
+def shll(n):       return 0x4000 | (n << 8)
+def shlr(n):       return 0x4001 | (n << 8)
+def shal(n):       return 0x4020 | (n << 8)
+def shar(n):       return 0x4021 | (n << 8)
+def shll2(n):      return 0x4008 | (n << 8)
+def shlr2(n):      return 0x4009 | (n << 8)
+def shll8(n):      return 0x4018 | (n << 8)
+def shlr8(n):      return 0x4019 | (n << 8)
+def shll16(n):     return 0x4028 | (n << 8)
+def shlr16(n):     return 0x4029 | (n << 8)
+def rotl(n):       return 0x4004 | (n << 8)
+def rotr(n):       return 0x4005 | (n << 8)
+def rotcl(n):      return 0x4024 | (n << 8)
+def rotcr(n):      return 0x4025 | (n << 8)
+def shad(m, n):    return 0x400C | (n << 8) | (m << 4)
+def shld(m, n):    return 0x400D | (n << 8) | (m << 4)
+def dt(n):         return 0x4010 | (n << 8)
+def movt(n):       return 0x0029 | (n << 8)
+SETT = 0x0018
+CLRT = 0x0008
+def extub(m, n):   return 0x600C | (n << 8) | (m << 4)
+def extuw(m, n):   return 0x600D | (n << 8) | (m << 4)
+def extsb(m, n):   return 0x600E | (n << 8) | (m << 4)
+def extsw(m, n):   return 0x600F | (n << 8) | (m << 4)
+def swapb(m, n):   return 0x6008 | (n << 8) | (m << 4)
+def swapw(m, n):   return 0x6009 | (n << 8) | (m << 4)
+def xtrct(m, n):   return 0x200D | (n << 8) | (m << 4)
+def not_(m, n):    return 0x6007 | (n << 8) | (m << 4)
+def mull(m, n):    return 0x0007 | (n << 8) | (m << 4)
+def mulsw(m, n):   return 0x200F | (n << 8) | (m << 4)
+def muluw(m, n):   return 0x200E | (n << 8) | (m << 4)
+def dmuls(m, n):   return 0x300D | (n << 8) | (m << 4)
+def dmulu(m, n):   return 0x3005 | (n << 8) | (m << 4)
+def mac_l(m, n):   return 0x000F | (n << 8) | (m << 4)   # mac.l @Rm+,@Rn+
+def sts_macl(n):   return 0x001A | (n << 8)
+def sts_mach(n):   return 0x000A | (n << 8)
+def sts_pr(n):     return 0x002A | (n << 8)
+def ldc_sr(n):     return 0x400E | (n << 8)
+def ldc_sgr(n):    return 0x403A | (n << 8)
+def stc_sgr(n):    return 0x003A | (n << 8)
+def ldcl_sgr(n):   return 0x4036 | (n << 8)   # ldc.l @Rn+,SGR
+def stcl_sgr(n):   return 0x4032 | (n << 8)   # stc.l SGR,@-Rn
+def ldc_dbr(n):    return 0x40FA | (n << 8)
+def stc_dbr(n):    return 0x00FA | (n << 8)
+def ldcl_dbr(n):   return 0x40F6 | (n << 8)   # ldc.l @Rn+,DBR
+def stcl_dbr(n):   return 0x40F2 | (n << 8)   # stc.l DBR,@-Rn
+def stc_sr(n):     return 0x0002 | (n << 8)
+def ldc_bank(n, b):return 0x408E | (n << 8) | (b << 4)   # ldc Rn,Rb_BANK
+def stc_bank(b, n):return 0x0082 | (n << 8) | (b << 4)   # stc Rb_BANK,Rn
+def movb_ld(m, n): return 0x6000 | (n << 8) | (m << 4)
+def movw_ld(m, n): return 0x6001 | (n << 8) | (m << 4)
+def movl_ld(m, n): return 0x6002 | (n << 8) | (m << 4)
+def movl_st(m, n): return 0x2002 | (n << 8) | (m << 4)
+def movl_std(m, n, d): return 0x1000 | (n << 8) | (m << 4) | (d & 0xF)  # mov.l Rm,@(d*4,Rn)
+def movl_predec(m, n): return 0x2006 | (n << 8) | (m << 4)           # mov.l Rm,@-Rn
+LDTLB = 0x0038
+def bra(disp):     return 0xA000 | (disp & 0xFFF)
+def bsr(disp):     return 0xB000 | (disp & 0xFFF)
+def bt(disp):      return 0x8900 | (disp & 0xFF)
+def bf(disp):      return 0x8B00 | (disp & 0xFF)
+def bts(disp):     return 0x8D00 | (disp & 0xFF)
+def bfs(disp):     return 0x8F00 | (disp & 0xFF)
+def jmp(n):        return 0x402B | (n << 8)
+def jsr(n):        return 0x400B | (n << 8)
+RTS = 0x000B
+NOP = 0x0009
+def tas(n):        return 0x401B | (n << 8)
+UNDEF = 0x0000                                   # an undefined opcode (general illegal)
+def trapa(i):      return 0xC300 | (i & 0xFF)
+def movca(n):      return 0x00C3 | (n << 8)       # movca.l R0,@Rn
+def tstb_gbr(i):   return 0xCC00 | (i & 0xFF)     # tst.b #imm,@(R0,GBR)
+def andb_gbr(i):   return 0xCD00 | (i & 0xFF)
+def xorb_gbr(i):   return 0xCE00 | (i & 0xFF)
+def orb_gbr(i):    return 0xCF00 | (i & 0xFF)
+def mac_w(m, n):   return 0x400F | (n << 8) | (m << 4)   # mac.w @Rm+,@Rn+
+def movua(m):      return 0x40A9 | (m << 8)       # movua.l @Rm,R0
+def movua_inc(m):  return 0x40E9 | (m << 8)       # movua.l @Rm+,R0
+def movli(m):      return 0x0063 | (m << 8)       # movli.l @Rm,R0
+def movco(n):      return 0x0073 | (n << 8)       # movco.l R0,@Rn
+
+U = 0xFFFFFFFF
+SR_T = 1
+
+
+def case(name, code, steps=1, setup=None, data=None, check=None, irq=None, pc=CODE):
+    return {"name": name, "code": code, "steps": steps, "setup": setup or {},
+            "data": data or {}, "check": check or [], "irq": irq, "pc": pc}
+
+
+def build_cases():
+    C = []
+    # --- carries / overflow ---
+    C.append(case("addc_carry_out", [addc(1, 0)],
+                  setup={"r": reg(r0=0xFFFFFFFF, r1=1), "sr": 0}))           # 0xFFFFFFFF+1 -> 0, T=1
+    C.append(case("addc_carry_in", [addc(1, 0)],
+                  setup={"r": reg(r0=1, r1=1), "sr": SR_T}))                  # 1+1+T -> 3, T=0
+    C.append(case("subc_borrow", [subc(1, 0)],
+                  setup={"r": reg(r0=0, r1=1), "sr": 0}))                     # 0-1 -> 0xFFFFFFFF, T=1
+    C.append(case("subc_borrow_in", [subc(1, 0)],
+                  setup={"r": reg(r0=5, r1=2), "sr": SR_T}))                  # 5-2-1
+    C.append(case("addv_overflow", [addv(1, 0)],
+                  setup={"r": reg(r0=0x7FFFFFFF, r1=1), "sr": 0}))            # INT_MAX+1 -> overflow T=1
+    C.append(case("addv_no_overflow", [addv(1, 0)],
+                  setup={"r": reg(r0=0x7FFFFFFE, r1=1), "sr": 0}))
+    C.append(case("subv_overflow", [subv(1, 0)],
+                  setup={"r": reg(r0=0x80000000, r1=1), "sr": 0}))           # INT_MIN-1 -> overflow
+    C.append(case("negc", [negc(1, 0)], setup={"r": reg(r1=1), "sr": 0}))     # 0-1-0
+    C.append(case("negc_with_t", [negc(1, 0)], setup={"r": reg(r1=0), "sr": SR_T}))
+
+    # --- signed/unsigned compares straddling 0x80000000 ---
+    big = 0x80000000
+    C.append(case("cmphs_unsigned", [cmphs(1, 0)], setup={"r": reg(r0=big, r1=1)}))   # big>=1 unsigned T=1
+    C.append(case("cmpge_signed", [cmpge(1, 0)], setup={"r": reg(r0=big, r1=1)}))     # big(-)<1 signed T=0
+    C.append(case("cmphi_eq", [cmphi(1, 0)], setup={"r": reg(r0=5, r1=5)}))           # not strictly > T=0
+    C.append(case("cmpgt_signed", [cmpgt(1, 0)], setup={"r": reg(r0=1, r1=U)}))       # 1 > -1 signed T=1
+    C.append(case("cmppz_neg", [cmppz(0)], setup={"r": reg(r0=big)}))                 # <0 -> T=0
+    C.append(case("cmppl_zero", [cmppl(0)], setup={"r": reg(r0=0)}))                  # not >0 -> T=0
+    C.append(case("cmpstr_match", [cmpstr(1, 0)], setup={"r": reg(r0=0x11223344, r1=0x55663377)}))  # byte 0 differs?
+    C.append(case("cmpim", [cmpim(0xFF)], setup={"r": reg(r0=0xFFFFFFFF)}))           # r0 == sext(0xFF)=-1 T=1
+
+    # --- shifts ---
+    C.append(case("shar_neg", [shar(0)], setup={"r": reg(r0=0x80000001)}))           # arith >>1 keeps sign, T=1
+    C.append(case("shlr_lsb", [shlr(0)], setup={"r": reg(r0=0x00000001)}))           # ->0 T=1
+    C.append(case("rotcl", [rotcl(0)], setup={"r": reg(r0=0x80000000), "sr": SR_T})) # in T=1 -> bit0; out T=1
+    C.append(case("rotcr", [rotcr(0)], setup={"r": reg(r0=0x00000001), "sr": 0}))    # out T=1, bit31<-Tin=0
+    C.append(case("rotl_msb", [rotl(0)], setup={"r": reg(r0=0x80000000)}))
+    C.append(case("rotr_lsb", [rotr(0)], setup={"r": reg(r0=0x00000001)}))
+    C.append(case("shad_pos", [shad(1, 0)], setup={"r": reg(r0=0x00000001, r1=4)}))   # <<4
+    C.append(case("shad_neg", [shad(1, 0)], setup={"r": reg(r0=0x80000000, r1=U-3)})) # >>4 arithmetic (r1=-4)
+    C.append(case("shad_neg32", [shad(1, 0)], setup={"r": reg(r0=0x80000000, r1=0xFFFFFFE0)}))  # -32 -> >>31 arith
+    C.append(case("shld_pos", [shld(1, 0)], setup={"r": reg(r0=0x00000001, r1=8)}))
+    C.append(case("shld_neg", [shld(1, 0)], setup={"r": reg(r0=0x80000000, r1=U-3)})) # logical >>4
+    C.append(case("shld_neg32", [shld(1, 0)], setup={"r": reg(r0=0xFFFFFFFF, r1=0xFFFFFFE0)}))  # -32 -> 0
+
+    # --- multiply (signed/unsigned) ---
+    C.append(case("mull_neg", [mull(1, 0), sts_macl(2)],
+                  setup={"r": reg(r0=U, r1=2)}, steps=2))                              # -1 * 2 low32
+    C.append(case("dmuls_neg", [dmuls(1, 0), sts_mach(2), sts_macl(3)],
+                  setup={"r": reg(r0=U, r1=U)}, steps=3))                              # -1 * -1 = 1
+    C.append(case("dmulu_big", [dmulu(1, 0), sts_mach(2), sts_macl(3)],
+                  setup={"r": reg(r0=0xFFFFFFFF, r1=0xFFFFFFFF)}, steps=3))
+    C.append(case("mulsw_neg", [mulsw(1, 0), sts_macl(2)],
+                  setup={"r": reg(r0=0xFFFF, r1=0x0002)}, steps=2))                    # (-1)*2
+    C.append(case("muluw", [muluw(1, 0), sts_macl(2)],
+                  setup={"r": reg(r0=0xFFFF, r1=0x0002)}, steps=2))
+
+    # --- div1 conformance via the classic unsigned-divide skeleton (exercises
+    #     div1 x32 with evolving Q/M/T; we only assert Go==Python, not the quotient) ---
+    code = [DIV0U]
+    for _ in range(32):
+        code += [rotcl(1), div1(0, 2)]
+    # set up: r0=divisor, r1=dividend(lo), r2=0(workspace upper). result quotient in r1.
+    C.append(case("udiv_17_by_5", code,
+                  setup={"r": reg(r0=5, r1=17, r2=0)}, steps=len(code)))
+
+    # --- sign-extension loads ---
+    C.append(case("movb_ld_neg", [movb_ld(1, 0)],
+                  setup={"r": reg(r1=DATA)}, data={str(DATA): 0x80000000}))            # byte 0x80 -> 0xFFFFFF80
+    C.append(case("movw_ld_neg", [movw_ld(1, 0)],
+                  setup={"r": reg(r1=DATA)}, data={str(DATA): 0x8123FFFF}))            # halfword 0x8123 -> sext
+    C.append(case("extsb", [extsb(1, 0)], setup={"r": reg(r1=0x000000FF)}))
+    C.append(case("extub", [extub(1, 0)], setup={"r": reg(r1=0xFFFFFFFF)}))
+    C.append(case("extsw", [extsw(1, 0)], setup={"r": reg(r1=0x0000FFFF)}))
+    C.append(case("swapb", [swapb(1, 0)], setup={"r": reg(r1=0x11223344)}))
+    C.append(case("swapw", [swapw(1, 0)], setup={"r": reg(r1=0x11223344)}))
+    C.append(case("xtrct", [xtrct(1, 0)], setup={"r": reg(r0=0xAAAABBBB, r1=0xCCCCDDDD)}))
+    C.append(case("not", [not_(1, 0)], setup={"r": reg(r1=0x0F0F0F0F)}))
+    C.append(case("dt_to_zero", [dt(0)], setup={"r": reg(r0=1)}))                      # ->0, T=1
+    C.append(case("dt_nonzero", [dt(0)], setup={"r": reg(r0=5)}))
+
+    # --- store to memory (verify write path & byte order) ---
+    C.append(case("movl_store", [movl_st(1, 0)],
+                  setup={"r": reg(r0=DATA, r1=0xDEADBEEF)}, check=[DATA]))
+
+    # --- SR register-bank swap on ldc Rn,SR ---
+    # start RB=0, r0..r7 = A; rbank1 = B; load SR with RB=1 -> active becomes B.
+    C.append(case("sr_bank_swap", [ldc_sr(8)],
+                  setup={"r": reg(r0=0xA0, r1=0xA1, r8=0x20000000 | 0x40000000),       # SR with RB|MD
+                         "rbank1": [0xB0, 0xB1, 0, 0, 0, 0, 0, 0]}))
+    C.append(case("stc_bank", [stc_bank(3, 0)],
+                  setup={"r": reg(), "rbank1": [0, 0, 0, 0xBEEF, 0, 0, 0, 0]}))         # r0 <- rbank1[3]
+
+    # --- delayed branch executes the delay slot ---
+    # bra +0 over the next; delay slot adds 1 to r0; after, pc lands at target.
+    C.append(case("bsr_delay_slot", [bsr(2), addi(0, 1), addi(0, 0x10), addi(0, 0x20)],
+                  setup={"r": reg(r0=0)}, steps=1))   # 1 step: bsr + its delay slot; check r0,pr,pc
+    C.append(case("bt_taken", [bt(1), addi(0, 0x10), addi(0, 0x20)],
+                  setup={"r": reg(r0=0), "sr": SR_T}, steps=1))   # bt taken skips next (non-delayed)
+    C.append(case("bf_not_taken", [bf(1), addi(0, 0x10)],
+                  setup={"r": reg(r0=0), "sr": SR_T}, steps=2))   # T=1 -> bf falls through to addi
+
+    # --- silicon-anchored cases: expected outputs verified against REAL fx-CG50 hardware
+    #     by re/validate_silicon.py (the on-device shtest probe). Freezing them holds the Go
+    #     port to silicon truth, not just to the oracle. ---
+    # Full-quotient unsigned divide: div0u + 32x(rotcl r1; div1 r0,r2) + a FINAL rotcl r1 to
+    # shift in the last quotient bit (the conformance `udiv` case above omits it on purpose and
+    # only checks Go==Python; this one yields the true quotient = hardware: 100/7=0x0e,
+    # 0xffffffff/3=0x55555555). Quotient lands in r1.
+    dcode = [DIV0U]
+    for _ in range(32):
+        dcode += [rotcl(1), div1(0, 2)]
+    dcode += [rotcl(1)]
+    C.append(case("div1_full_quotient_100_7", dcode,
+                  setup={"r": reg(r0=7, r1=100, r2=0)}, steps=len(dcode)))
+    C.append(case("div1_full_quotient_ffffffff_3", dcode,
+                  setup={"r": reg(r0=3, r1=0xFFFFFFFF, r2=0)}, steps=len(dcode)))
+    # div0u clears T as well as M and Q (SH-4 manual: 0 -> M, Q, T). The cases above start from
+    # T=0, so a div0u that left T alone passed them; gcc's __sdivsi3_i4i runs div0u right after
+    # a cmp/hi that set T, and every such quotient came out 2^24 too large (FlowCE, 2026-10-09).
+    C.append(case("div0u_clears_t", [DIV0U], setup={"sr": SR_T | 0x300}))          # T, Q, M set
+    C.append(case("div1_full_quotient_100_7_t_set", dcode,
+                  setup={"r": reg(r0=7, r1=100, r2=0), "sr": SR_T}, steps=len(dcode)))  # 0x0e
+    # MAC.L @Rm+,@Rn+ : sum 0x40000000^2*2 + 0x10000^2 + 0x7FFFFFFF^2 over 4 ops (r0,r1 both
+    # walking the array). S=0 -> MACH:MACL=60000000:00000001 (full 64-bit); S=1 -> saturate to
+    # 48-bit signed 00007fff:ffffffff. Both are real-hardware results.
+    macdata = {str(DATA): 0x40000000, str(DATA + 4): 0x40000000,
+               str(DATA + 8): 0x00010000, str(DATA + 12): 0x7FFFFFFF}
+    C.append(case("macl_no_saturation", [mac_l(1, 0)] * 4,
+                  setup={"r": reg(r0=DATA, r1=DATA), "sr": 0}, data=macdata, steps=4))
+    C.append(case("macl_saturate48", [mac_l(1, 0)] * 4,
+                  setup={"r": reg(r0=DATA, r1=DATA), "sr": 0x2}, data=macdata, steps=4))
+
+    # --- interrupt entry: pending IRQ, BL=0 -> vector to VBR+0x600 ---
+    C.append(case("irq_entry", [NOP], steps=1,
+                  setup={"r": reg(r0=0x11), "rbank1": [0x99, 0, 0, 0, 0, 0, 0, 0],
+                         "sr": 0x00000000, "vbr": VBR},   # BL=0, IMASK=0, RB=0
+                  data={str(VBR + 0x600): (NOP << 16) | NOP},
+                  irq=[0x560, 8]))   # (intevt, level)
+
+    # --- trapa #imm: EXPEVT 0x160, TRA = imm << 2, SPC = the next instruction, SR.MD/RB/BL = 1,
+    # PC = VBR+0x100 (bank 1 becomes current: r0 = rbank1[0] afterwards) ---
+    C.append(case("trapa", [0xC33E], steps=1,
+                  setup={"r": reg(r0=0x11, r15=DATA + 0x80), "rbank1": [0x99, 0, 0, 0, 0, 0, 0, 0],
+                         "sr": 0x40000001, "vbr": VBR},
+                  data={str(VBR + 0x100): (NOP << 16) | NOP},
+                  check=[0xFF000020, 0xFF000024]))
+
+    # --- SGR / DBR (debug base register: where a user break goes when CBCR.UBDE=1; the UBC
+    # itself is Go-only, emu_go/ubc.go): ldc/stc in register and stack forms, privileged ---
+    C.append(case("ldc_stc_sgr_dbr", [ldc_sgr(1), ldc_dbr(2), stc_sgr(3), stc_dbr(4)], steps=4,
+                  setup={"r": reg(r1=0x8C0FFF00, r2=0x0815A000), "sr": 0x40000000}))
+    C.append(case("ldcl_stcl_sgr_dbr", [stcl_sgr(5), stcl_dbr(5), ldcl_dbr(5), ldcl_sgr(5)], steps=4,
+                  setup={"r": reg(r5=DATA + 0x40), "sr": 0x40000000,
+                         "sgr": 0x12345678, "dbr": 0x9ABCDEF0},
+                  data={str(DATA + 0x38): 0, str(DATA + 0x3C): 0},
+                  check=[DATA + 0x38, DATA + 0x3C]))   # pushed SGR at +0x3C, DBR at +0x38, popped back in reverse order
+
+    # --- MMU (cont.18q, emu_go/mmu.go): ldtlb, translation, precise MMU exceptions ---
+    # Common: r8 = CCN base; r1 = PTEH (VPN 0x00300000, ASID 0); r2 = PTEL; r3 = MMUCR
+    # (URC=5, SV=1, AT=1). The 4 KB page maps onto DATA's physical page.
+    CCNB, VPN, MD = 0xFF000000, 0x00300000, 0x40000000
+    PPN = DATA & 0x1FFFF000
+    pte = lambda flags: PPN | flags                       # V 0x100, SZ0 0x10 (4K), PR 0x60, C 8, D 4
+    MMUCR = (5 << 10) | 0x100 | 1
+    mmu_regs = [0xFF000000, 0xFF000004, 0xFF00000C, 0xFF000010, 0xFF000024]
+    setup_code = [movl_st(1, 8), movl_std(2, 8, 1), movl_std(3, 8, 4), LDTLB]
+    mmu_setup = lambda ptel, **kw: {"r": reg(r1=VPN, r2=ptel, r3=MMUCR, r8=CCNB, **kw),
+                                    "sr": MD, "vbr": VBR}
+    vec = {str(VBR + 0x100): (NOP << 16) | NOP, str(VBR + 0x400): (NOP << 16) | NOP}
+    C.append(case("mmu_ldtlb_load", setup_code + [movl_ld(4, 5)], steps=5,
+                  setup=mmu_setup(pte(0x17C), r4=VPN + 0x10),
+                  data={str(DATA + 0x10): 0xCAFEBABE}, check=mmu_regs))
+    C.append(case("mmu_store_translated", setup_code + [movl_st(6, 4)], steps=5,
+                  setup=mmu_setup(pte(0x17C), r4=VPN + 0x20, r6=0x12345678),
+                  check=mmu_regs + [DATA + 0x20]))
+    C.append(case("mmu_miss_read", setup_code + [movl_ld(4, 5)], steps=5,
+                  setup=mmu_setup(pte(0x17C), r4=0x00400024, r5=0x55), data=vec, check=mmu_regs))
+    C.append(case("mmu_miss_predec_rollback", setup_code + [movl_predec(6, 4)], steps=5,
+                  setup=mmu_setup(pte(0x17C), r4=0x00400028, r6=7), data=vec, check=mmu_regs))
+    C.append(case("mmu_initial_page_write", setup_code + [movl_st(6, 4)], steps=5,
+                  setup=mmu_setup(pte(0x178), r4=VPN + 4, r6=1), data=vec, check=mmu_regs))   # D=0
+    C.append(case("mmu_protection_write", setup_code + [movl_st(6, 4)], steps=5,
+                  setup=mmu_setup(pte(0x11C), r4=VPN + 4, r6=1), data=vec, check=mmu_regs))   # PR=00
+    C.append(case("mmu_user_protection_read", setup_code + [ldc_sr(9), movl_ld(4, 5)], steps=6,
+                  setup=mmu_setup(pte(0x13C), r4=VPN + 8, r9=0), data=vec, check=mmu_regs))   # PR=01, MD=0
+    C.append(case("mmu_delay_slot_miss", [movl_std(3, 8, 4), bra(4), movl_ld(4, 5)], steps=2,
+                  setup=mmu_setup(0, r4=0x00500000), data=vec, check=mmu_regs))
+    C.append(case("mmu_ti_flush_then_miss", setup_code + [movl_std(7, 8, 4), movl_ld(4, 5)], steps=6,
+                  setup=mmu_setup(pte(0x17C), r4=VPN, r7=MMUCR | 4), data=vec, check=mmu_regs))
+    C.append(case("mmu_invalid_entry_no_match", setup_code + [movl_ld(4, 5)], steps=5,
+                  setup=mmu_setup(pte(0x07C), r4=VPN), data=vec, check=mmu_regs))             # V=0 -> miss
+    C.append(case("mmu_utlb_arrays", [movl_st(1, 9), movl_ld(9, 5), movl_st(2, 10),
+                                      movl_ld(10, 6), movl_ld(9, 7)], steps=5,
+                  setup={"r": reg(r1=VPN | 0x307, r2=pte(0x13C), r9=0xF6000300, r10=0xF7000300),
+                         "sr": MD}))
+
+    # --- general exceptions (2026-10-09): undefined opcode 0x180, slot illegal 0x1A0 (SPC =
+    # the branch), trapa 0x160 (SPC = after it, TRA = imm*4). They used to halt the emulator.
+    exc_regs = [0xFF000020, 0xFF000024]                  # TRA, EXPEVT
+    exc_setup = lambda **kw: {"r": reg(r15=0x8C0F0000, **kw), "sr": MD, "vbr": VBR}
+    C.append(case("illegal_general", [UNDEF], setup=exc_setup(), data=vec, check=exc_regs))
+    C.append(case("slot_illegal_branch", [bra(1), bra(1)], setup=exc_setup(), data=vec, check=exc_regs))
+    C.append(case("slot_illegal_bt", [bra(1), bt(1)], setup=exc_setup(), data=vec, check=exc_regs))
+    C.append(case("slot_illegal_ldc_sr", [bra(1), ldc_sr(1)], setup=exc_setup(r1=MD), data=vec,
+                  check=exc_regs))
+    C.append(case("slot_undefined", [bra(1), UNDEF], setup=exc_setup(), data=vec, check=exc_regs))
+    # SR.RB selects bank 1 only with MD=1: dropping to user mode with RB=1 keeps bank 0
+    C.append(case("sr_rb_ignored_when_md0", [ldc_sr(1)],
+                  setup={"r": reg(r0=0x11, r1=0x20000000), "rbank1": [0x99] + [0] * 7, "sr": MD}))
+
+    # --- instructions that were missing (2026-10-09) ---
+    C.append(case("movca_stores", [movca(1)], setup={"r": reg(r0=0xDEADBEEF, r1=DATA)},
+                  data={str(DATA): 0}, check=[DATA]))
+    C.append(case("gbr_byte_logic", [tstb_gbr(0x0B), andb_gbr(0x0F), xorb_gbr(0xFF), orb_gbr(0x80)],
+                  steps=4, setup={"r": reg(r0=1), "gbr": DATA},
+                  data={str(DATA): 0x12345678}, check=[DATA]))           # byte 0x34: T=1, ->0x04->0xFB->0xFB
+    macw_data = {str(DATA): 0xFFFE7FFF, str(DATA + 8): 0x00037FFF}       # (-2, 0x7FFF) x (3, 0x7FFF)
+    C.append(case("macw_64bit", [mac_w(1, 0), mac_w(1, 0)], steps=2,
+                  setup={"r": reg(r0=DATA, r1=DATA + 8), "sr": 0, "mach": 0, "macl": 5}, data=macw_data))
+    C.append(case("macw_saturate32", [mac_w(1, 0), mac_w(1, 0)], steps=2,
+                  setup={"r": reg(r0=DATA, r1=DATA + 8), "sr": 0x2, "mach": 0, "macl": 0x7FFFFFF0},
+                  data=macw_data))
+    C.append(case("movua_unaligned", [movua(1), mov(0, 3), movua_inc(2)], steps=3,
+                  setup={"r": reg(r1=DATA + 1, r2=DATA + 3)},
+                  data={str(DATA): 0x11223344, str(DATA + 4): 0x55667788}))
+    C.append(case("movli_movco_ok", [movli(1), addi(0, 1), movco(1)], steps=3,
+                  setup={"r": reg(r1=DATA)}, data={str(DATA): 5}, check=[DATA]))
+    C.append(case("movco_no_reservation", [movco(1)], setup={"r": reg(r0=7, r1=DATA), "sr": SR_T},
+                  data={str(DATA): 5}, check=[DATA]))
+    return C
+
+
+def div0u():
+    return DIV0U
+
+
+def reg(**kw):
+    r = [0] * 16
+    for k, v in kw.items():
+        r[int(k[1:])] = v & U
+    return r
+
+
+def replay(case):
+    mmio = MMIOBus(log=False)
+    mem = Memory(b"", mmio)
+    cpu = CPU(mem)
+    s = case["setup"]
+    cpu.r = list(s.get("r", [0] * 16))
+    cpu.rbank1 = list(s.get("rbank1", [0] * 8))
+    cpu._sr = s.get("sr", 0) & U
+    cpu.pr = s.get("pr", 0); cpu.gbr = s.get("gbr", 0); cpu.vbr = s.get("vbr", 0)
+    cpu.ssr = s.get("ssr", 0); cpu.spc = s.get("spc", 0)
+    cpu.sgr = s.get("sgr", 0); cpu.dbr = s.get("dbr", 0)
+    cpu.mach = s.get("mach", 0); cpu.macl = s.get("macl", 0)
+    cpu.fpul = s.get("fpul", 0); cpu.fpscr = s.get("fpscr", 0)
+    pc = case["pc"]
+    for i, opc in enumerate(case["code"]):
+        mem.w16(pc + 2 * i, opc)
+    for addr, val in case["data"].items():
+        mem.w32(int(addr), val & U)
+    if case["irq"]:
+        cpu.raise_irq(case["irq"][0], case["irq"][1])
+    cpu.cycles = 0
+    cpu.pc = pc
+    for _ in range(case["steps"]):
+        cpu.step()
+    return state(cpu, mem, case["check"])
+
+
+def state(cpu, mem, check):
+    return {
+        "pc": cpu.pc & U, "sr": cpu.sr & U,
+        "r": [x & U for x in cpu.r], "rbank1": [x & U for x in cpu.rbank1],
+        "pr": cpu.pr & U, "gbr": cpu.gbr & U, "vbr": cpu.vbr & U,
+        "ssr": cpu.ssr & U, "spc": cpu.spc & U, "sgr": cpu.sgr & U, "dbr": cpu.dbr & U,
+        "mach": cpu.mach & U, "macl": cpu.macl & U,
+        "data": {str(a): mem.r32(a) for a in check},
+    }
+
+
+def main():
+    cases = build_cases()
+    out = []
+    for c in cases:
+        try:
+            exp = replay(c)
+        except Exception as e:
+            print(f"case {c['name']!r} failed: {type(e).__name__}: {e}")
+            raise
+        out.append({"name": c["name"], "code": c["code"], "steps": c["steps"],
+                    "setup": c["setup"], "data": c["data"], "check": c["check"],
+                    "irq": c["irq"], "pc": c["pc"], "expect": exp})
+    with open(OUT, "w") as f:
+        json.dump({"version": 1, "cases": out}, f, indent=1)
+    print(f"wrote {OUT}: {len(out)} conformance cases")
+
+
+if __name__ == "__main__":
+    main()

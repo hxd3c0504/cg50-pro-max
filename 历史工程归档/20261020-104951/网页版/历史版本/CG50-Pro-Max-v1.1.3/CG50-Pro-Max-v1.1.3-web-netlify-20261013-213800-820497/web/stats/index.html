@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CG50 Pro Max · 使用统计</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui,-apple-system,sans-serif}
+body{margin:0;padding:24px;background:#101923;color:#edf4fb}
+main{max-width:1000px;margin:auto}
+h1{font-size:25px;margin-bottom:4px}
+small,.hint{color:#aabbcc}
+form{display:flex;flex-wrap:wrap;gap:10px;margin:24px 0}
+input,button,select{font:inherit;padding:10px;border-radius:9px;
+border:1px solid #637c99;background:#1d3045;color:inherit}
+button{cursor:pointer}
+#cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{padding:18px;background:#1d3045;border-radius:12px}
+.card b{display:block;font-size:30px;margin-top:10px}
+table{width:100%;border-collapse:collapse;margin-top:16px}
+td,th{text-align:left;padding:12px 6px;border-bottom:1px solid #31465b}
+progress{width:100%;accent-color:#50aaff}
+#status{line-height:1.5}
+label{align-self:center}
+</style>
+</head>
+<body><main>
+<h1>CG50 Pro Max · 使用统计</h1>
+<small>V 1.1.1 · 管理页面</small>
+<form id="login">
+<label for="password">管理密码</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button id="refresh">登录 / 刷新数据</button>
+<button id="logout" type="button">退出</button>
+</form>
+<p id="status" role="status">输入管理密码即可查看统计。</p>
+<section id="result" hidden>
+<div id="cards">
+<div class="card">今日使用次数<b id="today-sessions"></b></div>
+<div class="card">今日活跃访客<b id="today-users"></b></div>
+<div class="card">累计使用次数<b id="total-sessions"></b></div>
+<div class="card">累计访客（浏览器）<b id="total-users"></b></div>
+<div class="card">近 7 天使用次数<b id="seven-days"></b></div>
+</div>
+<p>
+<label for="range">趋势范围：</label>
+<select id="range">
+<option value="7">近 7 天</option>
+<option value="30" selected>近 30 天</option>
+</select>
+</p>
+<table>
+<thead><tr><th>日期</th><th>使用次数</th><th>活跃访客</th><th>使用趋势</th></tr></thead>
+<tbody id="rows"></tbody>
+</table>
+</section>
+<p class="hint">成功操作计算器才计数，间隔 30 分钟没有操作后再次使用算新的一次。日期按北京时间统计。</p>
+<p class="hint">同一个浏览器同一天计一个活跃访客；更换设备或清除网站数据会重新计数。离线记录联网后补报，统计为近似值。</p>
+</main>
+<script src="./stats.js"></script>
+</body></html>

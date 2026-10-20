@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.1.4",
+  "releaseId": "v1.1.4-20261014-111036-490740",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "换了新的计算器电池🔋"
+  ],
+  "notesEn": [
+    "Fresh batteries for the calculator 🔋"
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}

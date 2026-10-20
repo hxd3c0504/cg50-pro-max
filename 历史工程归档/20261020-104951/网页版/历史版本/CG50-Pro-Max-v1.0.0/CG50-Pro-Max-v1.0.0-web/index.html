@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CG50 Pro Max</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#eef2f6;color:#1c2737;font:15px -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button{font:inherit;cursor:pointer}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 24px;background:white;border-bottom:1px solid #dae0e8;flex-wrap:wrap}
+header strong{font-size:20px}
+.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools button,#clear{border:1px solid #d2dae4;background:white;border-radius:9px;padding:9px 12px}
+.tools button:hover,#clear:hover{background:#edf3ff}
+.tools button:disabled{opacity:.5}
+#connection{font-size:12px;color:#b36b15;margin-left:12px}
+#connection.online{color:#16704b}
+main{max-width:1500px;margin:auto;display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;padding:24px;align-items:start}
+.device-column{display:flex;justify-content:center}
+#device{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:655/1375;width:clamp(260px,calc((100dvh - 120px)*.476),360px);border-radius:24px;box-shadow:0 14px 38px #22334825}
+.photo{position:absolute;width:165.802%;max-width:none;left:-29.008%;top:-2.182%;pointer-events:none;user-select:none}
+.lcd{display:block;image-rendering:pixelated;background:#070b0a}
+#device .lcd{position:absolute;left:9.924%;top:12.582%;width:79.542%;height:20.436%;object-fit:contain}
+.hotspot{position:absolute;margin:0;padding:0;border:2px solid transparent;background:transparent;border-radius:8px;touch-action:none;-webkit-tap-highlight-color:transparent}
+.hotspot.round{border-radius:50%}
+.hotspot:hover,.hotspot:focus-visible{border-color:#38bdf8;background:#38bdf820;outline:none}
+.hotspot.glow{border-color:#ffdc54;background:#ffdc5445;box-shadow:0 0 14px #ffd74f}
+.hotspot.pressed{background:#ffdc5475}
+.presentation{min-width:0;padding-top:4px}
+.heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+h1{font-size:24px;margin:0}
+.screen-frame{padding:12px;background:#19222d;border-radius:16px;box-shadow:0 10px 28px #22334820}
+.screen-frame .lcd{width:100%;aspect-ratio:384/216;object-fit:contain}
+.record{background:white;border:1px solid #dbe2eb;border-radius:14px;padding:18px;margin-top:20px}
+.record-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.record-top span{color:#677589}
+#lastkey{display:inline-block;font-size:25px;margin-left:12px;color:#1559c5}
+#history{list-style:none;display:flex;gap:10px;overflow-x:auto;padding:10px 0;margin:12px 0 0;min-height:64px}
+#history li{flex-shrink:0;border:1px solid #dbe3ee;border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;background:#f8faff}
+#history small{color:#7b889b;font-size:11px}
+#history b{font-size:20px;font-weight:600}
+#empty{color:#7b889b;margin-bottom:0}
+.help{color:#677589;line-height:1.9;margin-top:18px}
+.help kbd{background:white;border:1px solid #dbe2eb;padding:2px 5px;border-radius:4px}
+#toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#172233;color:white;padding:13px 20px;border-radius:12px;opacity:0;pointer-events:none;transition:opacity .15s;z-index:20}
+#toast.show{opacity:1}
+@media(max-width:780px){
+header{padding:12px}main{grid-template-columns:1fr;padding:16px;gap:22px}
+#device{width:min(360px,85vw)}.presentation{padding:0}h1{font-size:20px}
+}
+</style>
+<!-- CG50 SETTINGS V2 HEAD -->
+<style id="cg50-settings-style">
+:root{--cg-bg:#eef2f6;--cg-panel:#fff;--cg-text:#1c2737;--cg-muted:#68778b;--cg-border:#d2dae4;--cg-soft:#f8faff;--cg-accent:#1764c5}
+html[data-cg50-theme="dark"]{--cg-bg:#111820;--cg-panel:#1d2732;--cg-text:#edf2f7;--cg-muted:#a8b5c6;--cg-border:#3c4a5b;--cg-soft:#253342;--cg-accent:#71b9ff}
+body{background:var(--cg-bg);color:var(--cg-text)}
+header,.record{background:var(--cg-panel);border-color:var(--cg-border)}
+.tools button,#clear,.help kbd,#cg50-settings-dialog button,#cg50-settings-dialog select{background:var(--cg-panel);color:var(--cg-text);border:1px solid var(--cg-border)}
+.heading h1,.record-top{color:var(--cg-text)}
+.help,#empty,.record-top span{color:var(--cg-muted)}
+#lastkey{color:var(--cg-accent)}
+html[data-cg50-theme="dark"] #connection.online{color:#72d4a4}
+#history li{background:var(--cg-soft);border-color:var(--cg-border);color:var(--cg-text)}
+.tools{flex-wrap:wrap;align-items:center}
+.cg50-settings-trigger{position:relative;display:inline-flex;flex-shrink:0}
+#cg50-settings-button{width:42px;height:42px;padding:0;display:grid;place-items:center;cursor:pointer;border-radius:9px}
+#cg50-settings-button:hover{background:var(--cg-soft)}
+#cg50-settings-tooltip{position:absolute;top:calc(100% + 8px);right:0;padding:6px 10px;background:var(--cg-text);color:var(--cg-panel);border-radius:6px;white-space:nowrap;font-size:13px;opacity:0;visibility:hidden;pointer-events:none;z-index:50}
+.cg50-settings-trigger:hover #cg50-settings-tooltip,.cg50-settings-trigger:focus-within #cg50-settings-tooltip{opacity:1;visibility:visible}
+#cg50-settings-dialog{width:min(440px,calc(100vw - 48px));max-height:calc(100vh - 48px);box-sizing:border-box;overflow:auto;border:1px solid var(--cg-border);border-radius:18px;background:var(--cg-panel);color:var(--cg-text);padding:26px;box-shadow:0 24px 80px #0005}
+#cg50-settings-dialog::backdrop{background:#0007}
+.cg50-settings-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.cg50-settings-heading h2{margin:0;font-size:24px}
+#cg50-close-settings{width:34px;height:34px;font-size:22px;border-radius:8px;cursor:pointer}
+.cg50-setting{display:block;margin-top:22px}
+.cg50-setting>span{display:block;font-weight:600;margin-bottom:10px}
+#cg50-settings-dialog select{width:100%;font:inherit;padding:10px 12px;border-radius:8px;cursor:pointer}
+#cg50-settings-dialog p{font-size:13px;line-height:1.6;color:var(--cg-muted);margin:10px 0}
+#cg50-settings-dialog footer{border-top:1px solid var(--cg-border);padding-top:16px;margin-top:22px;font-size:13px;color:var(--cg-muted)}
+#cg50-settings-dialog :focus-visible,#cg50-settings-button:focus-visible{outline:3px solid var(--cg-accent);outline-offset:3px}
+</style>
+<!-- /CG50 SETTINGS V2 HEAD -->
+<!-- CG50 MINI V1 HEAD -->
+<style id="cg50-mini-style">
+.cg50-mode-button{font:inherit;padding:9px 13px;border-radius:9px;border:1px solid var(--cg-border,#d2dae4);background:var(--cg-panel,#fff);color:var(--cg-text,#1c2737);cursor:pointer;white-space:nowrap}
+.heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+html[data-cg50-theme="dark"] .tools button:is(:hover,:active,:focus-visible),
+html[data-cg50-theme="dark"] #clear:is(:hover,:active,:focus-visible),
+html[data-cg50-theme="dark"] #cg50-settings-dialog button:is(:hover,:active,:focus-visible),
+html[data-cg50-theme="dark"] .cg50-mode-button:is(:hover,:active,:focus-visible){background:#edf3ff!important;color:#111820!important;border-color:#b4c9e6!important}
+#cg50-expand-button{display:none}
+body.cg50-mini .presentation,body.cg50-mini .record,body.cg50-mini .help{display:none!important}
+body.cg50-mini main{display:block!important;max-width:none;padding:10px!important;margin:0 auto!important}
+body.cg50-mini #device{width:min(100%,calc((100vh - var(--cg50-mini-header,64px) - 24px)*var(--cg50-device-ratio,0.47)))!important;min-width:0!important;max-width:none!important;margin:0 auto}
+body.cg50-mini header{padding:8px 10px!important;gap:6px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+body.cg50-mini header .brand,body.cg50-mini header h1,body.cg50-mini header strong{font-size:14px}
+body.cg50-mini #connection{display:none}
+body.cg50-mini .tools{gap:6px}
+body.cg50-mini .tools #fullscreen,body.cg50-mini .tools #capture,body.cg50-mini .tools [data-state]{display:none!important}
+body.cg50-mini #cg50-expand-button{display:inline-flex;padding:7px 10px;font-size:13px}
+body.cg50-mini #cg50-settings-button{width:36px;height:36px}
+</style>
+<!-- /CG50 MINI V1 HEAD -->
+<link rel="manifest" href="./manifest.webmanifest">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<script src="./ipad-adapter.js"></script>
+<style id="cg50-auto-import">#ipad-import{display:none!important}</style>
+
+<style id="cg50-right-update-layout">
+body:not(.cg50-mini) main{
+ grid-template-columns:minmax(0,1fr) auto!important;
+ grid-template-areas:"screen calculator"!important;
+}
+body:not(.cg50-mini) .presentation{grid-area:screen!important;}
+body:not(.cg50-mini) .device-column{grid-area:calculator!important;}
+@media(max-width:780px){
+ body:not(.cg50-mini) main{
+  grid-template-columns:1fr!important;
+  grid-template-areas:"calculator" "screen"!important;
+ }
+}
+</style>
+
+<script src="./cg50-update.js" defer></script>
+
+<link rel="apple-touch-icon" sizes="180x180" href="./icon-180.png">
+<meta name="apple-mobile-web-app-title" content="CG50 Pro Max">
+
+<script src="./cg50-display.js"></script>
+<meta name="cg50-version" content="1.0.0">
+</head>
+<body>
+<header>
+<div><strong>CG50 Pro Max</strong><span id="connection">连接中</span></div>
+<div class="tools">
+<button id="fullscreen">全屏投屏</button>
+<button id="capture">保存屏幕图片</button>
+<button data-state="save">保存进度 · F9</button>
+<button data-state="load">恢复进度 · F10</button>
+</div>
+</header>
+<main>
+<div class="device-column">
+<div id="device">
+<img class="photo" src="./calculator-front.png" alt="CG50 计算器外观">
+<img class="lcd" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="计算器屏幕">
+</div>
+</div>
+<div class="presentation">
+<div class="heading"><h1>屏幕放大</h1></div>
+<div class="screen-frame"><img class="lcd" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="放大的计算器屏幕"></div>
+<div class="record">
+<div class="record-top"><div><span>最近按键</span><strong id="lastkey">—</strong></div><button id="clear">清空按键记录</button></div>
+<p id="empty">点击左侧按键，或使用电脑键盘。</p>
+<ol id="history" aria-label="按键顺序"></ol>
+</div>
+<p class="help">
+<kbd>Enter</kbd> EXE　<kbd>Backspace</kbd> DEL　<kbd>Esc</kbd> EXIT　<kbd>Home</kbd> MENU<br>
+<kbd>Tab</kbd> SHIFT　<kbd>反引号</kbd> ALPHA　<kbd>F1–F6</kbd> 功能键<br>
+数字、运算符和方向键直接输入；A–Z 自动输入 ALPHA＋对应字母键。<br>
+黄色功能：先按 SHIFT，再按对应键。红色字母：先按 ALPHA，再按对应键。
+</p>
+</div>
+</main>
+<div id="toast" role="status"></div>
+<script>
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const defs=[
+['F1','F1'],['F2','F2'],['F3','F3'],['F4','F4'],['F5','F5'],['F6','F6'],
+['SHIFT','SHIFT'],['OPTN','OPTN'],['VARS','VARS'],['MENU','MENU'],
+['ALPHA','ALPHA'],['SQ','x²'],['POWER','^'],['EXIT','EXIT'],
+['XVAR','X,θ,T','','A'],['LOG','log','','B'],['LN','ln','','C'],
+['SIN','sin','','D'],['COS','cos','','E'],['TAN','tan','','F'],
+['FRAC','分数','','G'],['SD','S↔D','','H'],['(','(','','I'],
+[')',')','','J'],[',',',','','K'],['STORE','→','','L'],
+['7','7','','M'],['8','8','','N'],['9','9','','O'],['DEL','DEL'],['AC','AC/ON'],
+['4','4','','P'],['5','5','','Q'],['6','6','','R'],['*','×','','S'],['/','÷','','T'],
+['1','1','','U'],['2','2','','V'],['3','3','','W'],['+','+','','X'],['-','−','','Y'],
+['0','0','','Z'],['.','.'],['EXP','×10ˣ'],['NEG','(−)'],['EXE','EXE']
+];
+const keyById=new Map();
+function hotspot(d,x,y,w,h,round=false){
+ const [id,label]=d;keyById.set(id,d);
+ const b=document.createElement('button');
+ b.type='button';b.className='hotspot'+(round?' round':'');
+ b.dataset.key=id;b.title=label;b.setAttribute('aria-label',label);
+ Object.assign(b.style,{
+ left:((x-w/2-190)/655*100)+'%',top:((y-h/2-30)/1375*100)+'%',
+ width:(w/655*100)+'%',height:(h/1375*100)+'%'});
+ $('#device').append(b);
+}
+const cols=[282,375,467,562,657,748],nums=[288,400,513,627,740];
+defs.slice(0,6).forEach((d,i)=>hotspot(d,cols[i],573,58,58,true));
+defs.slice(6,14).forEach((d,i)=>hotspot(d,cols[i%4],i<4?660:737,86,48));
+defs.slice(14,26).forEach((d,i)=>hotspot(d,cols[i%6],i<6?830:904,86,48));
+defs.slice(26).forEach((d,i)=>hotspot(d,nums[i%5],[1011,1105,1200,1297][Math.floor(i/5)],102,72));
+[['ArrowUp','↑',707,642],['ArrowLeft','←',653,695],
+ ['ArrowRight','→',762,695],['ArrowDown','↓',707,748]]
+.forEach(d=>hotspot(d,d[2],d[3],51,51,true));
+
+let chain=Promise.resolve(),sequence=0,frameURL='',toastTimer,count=0;
+const session='ui'+Math.random().toString(36).slice(2);
+const held=new Map(),glowTimers=new Map();
+function toast(t){
+ $('#toast').textContent=t;$('#toast').classList.add('show');
+ clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').classList.remove('show'),3200);
+}
+async function request(path,timeout=6000){
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),timeout);
+ try{
+  const r=await fetch(path,{method:'POST',cache:'no-store',signal:c.signal});
+  const text=await r.text();if(!r.ok)throw Error(text||r.status);return text;
+ }finally{clearTimeout(t);}
+}
+function enqueue(path){
+ const job=chain.then(()=>request(path));
+ chain=job.catch(()=>toast('按键未送达，请检查终端是否仍在运行'));
+ return job;
+}
+function shine(id,on){
+ const b=$$('[data-key]').find(b=>b.dataset.key===id);if(!b)return;
+ clearTimeout(glowTimers.get(id));
+ b.classList.toggle('pressed',on);b.classList.add('glow');
+ if(!on)glowTimers.set(id,setTimeout(()=>b.classList.remove('glow'),800));
+}
+function record(id){
+ const label=keyById.get(id)?.[1]||id;$('#lastkey').textContent=label;
+ const item=document.createElement('li'),n=document.createElement('small'),b=document.createElement('b');
+ n.textContent=String(++count).padStart(2,'0');b.textContent=label;
+ item.append(n,b);$('#history').append(item);
+ while($('#history').children.length>14)$('#history').firstElementChild.remove();
+ $('#empty').hidden=true;$('#history').scrollLeft=$('#history').scrollWidth;
+}
+function tap(id){
+ record(id);shine(id,true);
+ enqueue('/key?k='+encodeURIComponent(id)).catch(()=>{});
+ setTimeout(()=>shine(id,false),140);
+}
+function hold(id,source){
+ if(held.has(source))return;
+ const token=session+'-'+(++sequence);
+ held.set(source,{id,token});record(id);shine(id,true);
+ enqueue('/hold?k='+encodeURIComponent(id)+'&id='+token+'&down=1')
+ .catch(()=>{held.delete(source);shine(id,false);});
+}
+function release(source){
+ const v=held.get(source);if(!v)return;
+ held.delete(source);shine(v.id,false);
+ enqueue('/hold?k='+encodeURIComponent(v.id)+'&id='+v.token+'&down=0').catch(()=>{});
+}
+function releaseAll(){for(const s of [...held.keys()])release(s);}
+setInterval(()=>{
+ for(const v of held.values())
+ enqueue('/hold?k='+encodeURIComponent(v.id)+'&id='+v.token+'&down=1').catch(()=>{});
+},650);
+$$('[data-key]').forEach(b=>{
+ const id=b.dataset.key;
+ if(id.startsWith('Arrow')){
+  b.addEventListener('pointerdown',e=>{
+   e.preventDefault();b.setPointerCapture(e.pointerId);hold(id,'p'+e.pointerId);
+  });
+  for(const type of ['pointerup','pointercancel','lostpointercapture'])
+   b.addEventListener(type,e=>release('p'+e.pointerId));
+  b.addEventListener('click',e=>{if(e.detail===0)tap(id);});
+ }else b.addEventListener('click',()=>tap(id));
+});
+const keyboard={
+ Enter:'EXE',Backspace:'DEL',Delete:'DEL',Escape:'EXIT',Home:'MENU',
+ Tab:'SHIFT',Backquote:'ALPHA','^':'POWER','=':'EXE'
+};
+document.addEventListener('keydown',e=>{
+ if(e.ctrlKey||e.metaKey||e.altKey||e.target.matches('input,textarea,select'))return;
+ if(e.key==='F9'||e.key==='F10'){
+  e.preventDefault();if(!e.repeat)stateAction(e.key==='F9'?'save':'load');return;
+ }
+ if(/^[a-z]$/i.test(e.key)){
+  e.preventDefault();if(e.repeat)return;
+  const d=defs.find(d=>d[3]===e.key.toUpperCase());
+  if(d){tap('ALPHA');tap(d[0]);}return;
+ }
+ const id=keyboard[e.code]||keyboard[e.key]||(keyById.has(e.key)?e.key:null);
+ if(!id)return;e.preventDefault();
+ if(id.startsWith('Arrow'))hold(id,'k'+e.code);
+ else if(!e.repeat)tap(id);
+});
+document.addEventListener('keyup',e=>release('k'+e.code));
+window.addEventListener('blur',releaseAll);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseAll();});
+window.addEventListener('pagehide',()=>navigator.sendBeacon('/hold?reset=1',''));
+async function stateAction(action){
+ releaseAll();$$('[data-state]').forEach(b=>b.disabled=true);
+ try{
+  await chain;const r=await request('/'+action,12000);
+  if(r!=='state saved'&&r!=='state reloaded')throw Error(r);
+  toast(action==='save'?'已保存计算器状态':'已恢复保存的计算器状态');
+ }catch(e){toast('操作未完成：'+(e.name==='AbortError'?'等待超时':e.message));}
+ finally{$$('[data-state]').forEach(b=>b.disabled=false);}
+}
+$$('[data-state]').forEach(b=>b.onclick=()=>stateAction(b.dataset.state));
+$('#clear').onclick=()=>{
+ $('#history').replaceChildren();$('#empty').hidden=false;$('#lastkey').textContent='—';count=0;
+};
+$('#fullscreen').onclick=async()=>{
+ try{
+  if(document.fullscreenElement)await document.exitFullscreen();
+  else await document.documentElement.requestFullscreen();
+ }catch{toast('请使用浏览器的全屏功能');}
+};
+document.addEventListener('fullscreenchange',()=>{
+ $('#fullscreen').textContent=document.fullscreenElement?'退出全屏':'全屏投屏';
+});
+$('#capture').onclick=()=>{
+ const img=$('.lcd');if(!img.naturalWidth)return;
+ const c=document.createElement('canvas');c.width=384;c.height=216;
+ c.getContext('2d').drawImage(img,0,0);
+ c.toBlob(blob=>{
+  if(!blob)return;
+  const u=URL.createObjectURL(blob),a=document.createElement('a');
+  a.href=u;a.download='CG50-'+Date.now()+'.png';a.click();
+  setTimeout(()=>URL.revokeObjectURL(u),1000);
+ });
+};
+async function frame(){
+ const c=new AbortController(),t=setTimeout(()=>c.abort(),6000);
+ try{
+  const r=await fetch('/frame?t='+Date.now(),{cache:'no-store',signal:c.signal});
+  if(!r.ok)throw Error();
+  const blob=await r.blob(),u=URL.createObjectURL(blob),probe=new Image();
+  probe.src=u;
+  try{await probe.decode();}catch(e){URL.revokeObjectURL(u);throw e;}
+  const old=frameURL;frameURL=u;$$('.lcd').forEach(img=>img.src=u);
+  if(old)URL.revokeObjectURL(old);
+  $('#connection').textContent='画面已连接';$('#connection').classList.add('online');
+ }catch{
+  $('#connection').textContent='连接中断';$('#connection').classList.remove('online');
+ }finally{
+  clearTimeout(t);setTimeout(frame,document.hidden?700:90);
+ }
+}
+if(!window.CG50DirectFrames)frame();
+</script>
+<!-- CG50 SETTINGS V2 BODY -->
+<dialog id="cg50-settings-dialog" aria-labelledby="cg50-settings-title">
+  <div class="cg50-settings-heading">
+    <h2 id="cg50-settings-title">设置</h2>
+    <button type="button" id="cg50-close-settings" aria-label="关闭设置">×</button>
+  </div>
+  <label class="cg50-setting" for="cg50-language">
+    <span>界面语言</span>
+    <select id="cg50-language">
+      <option value="en">English</option>
+      <option value="zh">中文</option>
+    </select>
+  </label>
+  <p>仅切换软件界面；计算器菜单语言请在 CG50 内设置。</p>
+  <label class="cg50-setting" for="cg50-theme">
+    <span>外观模式</span>
+    <select id="cg50-theme">
+      <option value="system">自动（跟随系统）</option>
+      <option value="light">浅色</option>
+      <option value="dark">深色</option>
+    </select>
+  </label>
+  <p>自动模式跟随系统；无法读取时，07:00–19:00 使用浅色。</p>
+  <footer>设置立即生效，重启后保留。</footer>
+</dialog>
+
+<script>
+
+(() => {
+  const $ = s => document.querySelector(s);
+  const dict = {
+    "全屏投屏":"Fullscreen","退出全屏":"Exit fullscreen",
+    "保存屏幕图片":"Save screen image","保存进度 · F9":"Save progress · F9",
+    "恢复进度 · F10":"Restore progress · F10","屏幕放大":"Screen preview",
+    "最近按键":"Last key","清空按键记录":"Clear key history",
+    "点击左侧按键，或使用电脑键盘。":"Click a calculator key or use your computer keyboard.",
+    "画面已连接":"Screen connected","连接中":"Connecting…","连接中断":"Connection lost",
+    "分数":"Fraction","设置":"Settings","关闭设置":"Close settings",
+    "界面语言":"Interface language","外观模式":"Appearance",
+    "自动（跟随系统）":"Automatic (follow system)","浅色":"Light","深色":"Dark",
+    "设置立即生效，重启后保留。":"Changes apply immediately and are remembered after restarting.",
+    "仅切换软件界面；计算器菜单语言请在 CG50 内设置。":"Changes the app interface. Set the calculator menu language within the CG50.",
+    "自动模式跟随系统；无法读取时，07:00–19:00 使用浅色。":"Automatic follows system appearance. If unavailable, light mode is used from 07:00 to 19:00.",
+    "已保存计算器状态":"Calculator state saved.","已保存当前计算器状态":"Calculator state saved.",
+    "已恢复保存的计算器状态":"Saved calculator state restored.",
+    "已保存进度":"Progress saved.","已恢复进度":"Progress restored.",
+    "保存失败":"Save failed","恢复失败":"Restore failed","等待超时":"Timed out",
+    "按键未送达，请检查终端是否仍在运行":"Key not sent. Check that the emulator is running.",
+    "请使用浏览器的全屏功能":"Use your browser's fullscreen command.",
+    "按键记录已清空":"Key history cleared.","已保存屏幕图片":"Screen image saved."
+  };
+  const reverse = {};
+  Object.entries(dict).forEach(([a,b]) => { if (!(b in reverse)) reverse[b]=a; });
+  let saved={};
+  try { saved=JSON.parse(localStorage.getItem('cg50-ui-settings')||'{}'); } catch (_) {}
+  const raw=window.CG50NativePrefs||saved||{};
+  let prefs={
+    language:['en','zh'].includes(raw.language)?raw.language:'zh',
+    theme:['system','light','dark'].includes(raw.theme)?raw.theme:'system'
+  };
+  const dialog=$('#cg50-settings-dialog'), restore=$('[data-state="load"]');
+  if (!dialog || !restore) return;
+  const wrap=document.createElement('span');
+  wrap.className='cg50-settings-trigger';
+  const gear=document.createElement('button');
+  gear.type='button'; gear.id='cg50-settings-button';
+  gear.setAttribute('aria-haspopup','dialog');
+  gear.setAttribute('aria-controls',dialog.id);
+  gear.setAttribute('aria-label','设置');
+  gear.setAttribute('aria-describedby','cg50-settings-tooltip');
+  const points=Array.from({length:32},(_,i)=>{
+    const a=-Math.PI/2+i*Math.PI/16, r=[8.4,10.3,10.3,8.4][i%4];
+    return (12+Math.cos(a)*r).toFixed(2)+' '+(12+Math.sin(a)*r).toFixed(2);
+  });
+  gear.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M'+points.join(' L')+' Z M12 8.6 a3.4 3.4 0 1 0 0 6.8 a3.4 3.4 0 1 0 0 -6.8 Z"/></svg>';
+  const tip=document.createElement('span');
+  tip.id='cg50-settings-tooltip'; tip.textContent='设置'; tip.setAttribute('role','tooltip');
+  wrap.append(gear,tip); restore.insertAdjacentElement('afterend',wrap);
+  function translate(s) {
+    const map=prefs.language==='en'?dict:reverse;
+    const key=s.trim();
+    if (key in map) return s.replace(key,map[key]);
+    const a=prefs.language==='en'?'操作未完成：':'Could not complete action: ';
+    const b=prefs.language==='en'?'Could not complete action: ':'操作未完成：';
+    return s.startsWith(a)?b+translate(s.slice(a.length)):s;
+  }
+  function localize() {
+    const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);
+    let n;
+    while ((n=walker.nextNode())) {
+      if (n.parentElement?.closest('script,style,textarea')) continue;
+      const text=translate(n.nodeValue);
+      if (text!==n.nodeValue) n.nodeValue=text;
+    }
+    document.querySelectorAll('[title],[aria-label]').forEach(el=>{
+      ['title','aria-label'].forEach(a=>{
+        const old=el.getAttribute(a);
+        if (old!==null) {
+          const value=translate(old);
+          if(value!==old) el.setAttribute(a,value);
+        }
+      });
+    });
+  }
+  function theme() {
+    let value=prefs.theme;
+    if (value==='system') {
+      value=null;
+      try {
+        if(matchMedia('(prefers-color-scheme: dark)').matches) value='dark';
+        else if(matchMedia('(prefers-color-scheme: light)').matches) value='light';
+      } catch (_) {}
+      if(!value) {
+        const h=new Date().getHours();
+        value=h>=7&&h<19?'light':'dark';
+      }
+    }
+    document.documentElement.dataset.cg50Theme=value;
+    document.documentElement.style.colorScheme=value;
+  }
+  const help={
+    en:'Enter → EXE · Backspace → DEL · Esc → EXIT · Home → MENU<br>Tab → SHIFT · Backtick → ALPHA · F1–F6 → Function keys<br>Numbers, operators and arrow keys work directly. A–Z enters ALPHA followed by the letter key.<br>Yellow functions: SHIFT then the key. Red letters: ALPHA then the key.',
+    zh:'Enter → EXE · Backspace → DEL · Esc → EXIT · Home → MENU<br>Tab → SHIFT · 反引号 → ALPHA · F1–F6 → 功能键<br>数字、运算符和方向键直接输入；A–Z 自动输入 ALPHA＋字母键。<br>黄色功能：先按 SHIFT，再按对应键。红色字母：先按 ALPHA，再按对应键。'
+  };
+  function apply() {
+    document.documentElement.lang=prefs.language==='en'?'en':'zh-CN';
+    $('#cg50-language').value=prefs.language;
+    $('#cg50-theme').value=prefs.theme;
+    const legend=$('.help');
+    if(legend && legend.innerHTML!==help[prefs.language])
+      legend.innerHTML=help[prefs.language];
+    if(typeof keyById!=='undefined' && keyById.has('FRAC'))
+      keyById.get('FRAC')[1]=prefs.language==='en'?'Fraction':'分数';
+    localize(); theme();
+  }
+  function persist() {
+    window.CG50NativePrefs={...prefs};
+    try {localStorage.setItem('cg50-ui-settings',JSON.stringify(prefs));} catch (_) {}
+    try {
+      window.webkit.messageHandlers.native.postMessage({kind:'cg50-settings',...prefs});
+    } catch (_) {}
+  }
+  $('#cg50-language').addEventListener('change',e=>{
+    prefs.language=e.target.value; apply(); persist();
+  });
+  $('#cg50-theme').addEventListener('change',e=>{
+    prefs.theme=e.target.value; apply(); persist();
+  });
+  gear.addEventListener('click',()=>{
+    if(typeof releaseAll==='function') releaseAll();
+    dialog.showModal();
+  });
+  $('#cg50-close-settings').addEventListener('click',()=>dialog.close());
+  dialog.addEventListener('close',()=>gear.focus({preventScroll:true}));
+  dialog.addEventListener('click',e=>{
+    if(e.target!==dialog) return;
+    const r=dialog.getBoundingClientRect();
+    if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)
+      dialog.close();
+  });
+  const consumed=new Set();
+  document.addEventListener('keydown',e=>{
+    if(!dialog.open) return;
+    consumed.add(e.code); e.stopImmediatePropagation();
+    if(e.key==='Escape'){e.preventDefault();dialog.close();}
+  },true);
+  document.addEventListener('keyup',e=>{
+    if(dialog.open||consumed.has(e.code)) e.stopImmediatePropagation();
+    consumed.delete(e.code);
+  },true);
+  window.addEventListener('blur',()=>consumed.clear());
+  ['dark','light'].forEach(value=>{
+    if(typeof matchMedia!=='function') return;
+    const q=matchMedia('(prefers-color-scheme: '+value+')');
+    const changed=()=>{if(prefs.theme==='system') theme();};
+    if(q.addEventListener) q.addEventListener('change',changed);
+    else if(q.addListener) q.addListener(changed);
+  });
+  setInterval(()=>{if(prefs.theme==='system')theme();},60000);
+  apply();
+  new MutationObserver(localize).observe(document.body,{
+    subtree:true,childList:true,characterData:true
+  });
+})();
+
+</script><!-- /CG50 SETTINGS V2 BODY -->
+<!-- CG50 MINI V1 BODY -->
+<script>
+
+(() => {
+  const device=document.getElementById('device');
+  const heading=document.querySelector('.heading');
+  const tools=document.querySelector('.tools');
+  if(!device||!heading||!tools||typeof tap!=='function') return;
+  const miniButton=document.createElement('button');
+  const expandButton=document.createElement('button');
+  for(const b of [miniButton,expandButton]) {
+    b.type='button';b.className='cg50-mode-button';
+  }
+  miniButton.id='cg50-mini-button';
+  expandButton.id='cg50-expand-button';
+  heading.append(miniButton);
+  tools.prepend(expandButton);
+  let saved=false;
+  try {saved=localStorage.getItem('cg50-mini')==='true';} catch(_) {}
+  let mini=typeof window.CG50NativeCompact==='boolean'
+    ?window.CG50NativeCompact:saved;
+  const rect=device.getBoundingClientRect();
+  const ratio=rect.width>0&&rect.height>0?rect.width/rect.height:0.47;
+  document.documentElement.style.setProperty('--cg50-device-ratio',String(ratio));
+  function english(){return document.documentElement.lang.startsWith('en');}
+  function labels(){
+    miniButton.textContent=english()?'Mini mode':'小窗模式';
+    expandButton.textContent=english()?'Expand view':'展开界面';
+    const help=document.querySelector('.help');
+    if(help) {
+      const text=english()
+        ? 'Enter → EXE · Backspace → DEL · Esc → EXIT · Tab / Home → MENU<br>Shift (tap) → SHIFT · Backtick → ALPHA · F1–F6 → Function keys<br>Numbers, operators and arrow keys work directly. A–Z enters ALPHA followed by the letter key.<br>Tap Shift for yellow functions. Hold Shift to type symbols or uppercase letters normally.'
+        : 'Enter → EXE · Backspace → DEL · Esc → EXIT · Tab / Home → MENU<br>单按 Shift → 黄色 SHIFT · 反引号 → ALPHA · F1–F6 → 功能键<br>数字、运算符和方向键直接输入；A–Z 自动输入 ALPHA＋字母键。<br>单按 Shift 使用黄色功能；按住 Shift 输入符号或大写字母时保持正常输入。';
+      if(help.innerHTML!==text) help.innerHTML=text;
+    }
+  }
+  function size(){
+    const header=document.querySelector('header');
+    const height=header?header.getBoundingClientRect().height:64;
+    document.documentElement.style.setProperty('--cg50-mini-header',height+'px');
+  }
+  function apply(value){
+    if(typeof releaseAll==='function') releaseAll();
+    mini=!!value;
+    document.body.classList.toggle('cg50-mini',mini);
+    miniButton.setAttribute('aria-pressed',String(mini));
+    window.CG50NativeCompact=mini;
+    try {localStorage.setItem('cg50-mini',String(mini));} catch(_) {}
+    labels();size();
+    try {
+      window.webkit.messageHandlers.native.postMessage({
+        kind:'cg50-compact',enabled:mini
+      });
+    } catch(_) {}
+  }
+  function focusCalculator(){
+    document.body.tabIndex=-1;
+    document.body.focus({preventScroll:true});
+  }
+  miniButton.addEventListener('click',()=>{apply(true);focusCalculator();});
+  expandButton.addEventListener('click',()=>{apply(false);focusCalculator();});
+  new MutationObserver(labels).observe(document.documentElement,{
+    attributes:true,attributeFilter:['lang']
+  });
+  if(typeof ResizeObserver==='function') {
+    const header=document.querySelector('header');
+    if(header) new ResizeObserver(size).observe(header);
+  }
+  window.addEventListener('resize',size);
+  const shifts=new Set(),consumedTabs=new Set();
+  let shiftUsed=false;
+  function formTarget(e){
+    return !!document.querySelector('dialog[open]') ||
+      !!e.target?.closest?.('input,textarea,select,[contenteditable]:not([contenteditable="false"])');
+  }
+  function reset(){shifts.clear();consumedTabs.clear();shiftUsed=false;}
+  document.addEventListener('keydown',e=>{
+    if(formTarget(e)||e.isComposing){reset();return;}
+    if(e.key==='Shift'){
+      if(e.ctrlKey||e.metaKey||e.altKey){reset();return;}
+      if(shifts.size===0) shiftUsed=false;
+      shifts.add(e.code);
+      e.stopImmediatePropagation();
+      return;
+    }
+    if(shifts.size) shiftUsed=true;
+    if(e.key==='Tab'&&!e.ctrlKey&&!e.metaKey&&!e.altKey){
+      e.preventDefault();e.stopImmediatePropagation();
+      consumedTabs.add(e.code);
+      if(!e.repeat) tap('MENU');
+    }
+  },true);
+  document.addEventListener('keyup',e=>{
+    if(consumedTabs.has(e.code)){
+      consumedTabs.delete(e.code);
+      e.preventDefault();e.stopImmediatePropagation();return;
+    }
+    if(e.key!=='Shift'||!shifts.has(e.code))return;
+    shifts.delete(e.code);e.stopImmediatePropagation();
+    if(shifts.size===0&&!shiftUsed&&!formTarget(e)&&
+       !e.ctrlKey&&!e.metaKey&&!e.altKey&&!e.isComposing) tap('SHIFT');
+  },true);
+  const settings=document.getElementById('cg50-settings-dialog');
+  if(settings) new MutationObserver(()=>{
+    if(settings.open)reset();
+  }).observe(settings,{attributes:true,attributeFilter:['open']});
+  document.addEventListener('pointerdown',()=>{
+    if(shifts.size)shiftUsed=true;
+  },true);
+  window.addEventListener('blur',reset);
+  document.addEventListener('visibilitychange',reset);
+  apply(mini);
+})();
+
+</script>
+<!-- /CG50 MINI V1 BODY -->
+
+<!-- CG50 BATTERY GUARD V1 -->
+<!-- Battery lifecycle will be adapted separately for iPad. -->
+</body>
+</html>

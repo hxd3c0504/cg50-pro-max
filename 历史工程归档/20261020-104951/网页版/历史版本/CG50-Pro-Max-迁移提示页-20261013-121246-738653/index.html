@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>CG50 Pro Max · 我们搬家啦</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:24px;
+background:#eef2f6;color:#202b38;font:16px/1.8 -apple-system,sans-serif}
+main{width:min(100%,560px);padding:36px;background:white;
+border:1px solid #dce3ec;border-radius:24px;box-shadow:0 16px 60px #18304b12}
+.brand{color:#4174bb;font-weight:700}
+h1{font-size:30px;line-height:1.4}
+.address{color:#245fe0;overflow-wrap:anywhere}
+.go{display:block;margin:24px 0;padding:13px;text-align:center;
+background:#245fe0;color:white;border-radius:12px;text-decoration:none;font-weight:650}
+.small{font-size:14px;color:#64748b}
+button{padding:10px 16px;border:1px solid #94a3b8;border-radius:10px;
+background:transparent;color:inherit;font:inherit;cursor:pointer}
+#status{font-size:14px;min-height:1.8em}
+@media(prefers-color-scheme:dark){
+body{background:#101820;color:#e6edf5}
+main{background:#1b2632;border-color:#354457}
+.small{color:#aab8c9}.address{color:#8bb8ff}
+}
+</style>
+</head>
+<body>
+<main>
+<div class="brand">CG50 Pro Max</div>
+<h1>我们搬家啦！🎉</h1>
+<p>CG50 Pro Max 换了个新家呀，之后来这里找我们哦！</p>
+<a class="address" href="https://cg50promax.netlify.app/">https://cg50promax.netlify.app/</a>
+<a class="go" href="https://cg50promax.netlify.app/">走呀，去新网站 →</a>
+<p class="small">记得更新收藏和主屏幕快捷方式哦～</p>
+<p class="small">小提醒：旧进度不会自己搬过去，出发前可以先下载一份备份呀。</p>
+<button id="backup" type="button">先把旧进度打包带走</button>
+<p id="status" role="status"></p>
+</main>
+<script>
+const button=document.getElementById("backup");
+const status=document.getElementById("status");
+button.onclick=async()=>{
+  button.disabled=true;status.textContent="正在找你的旧进度呀…";
+  let db;
+  try{
+    db=await new Promise((resolve,reject)=>{
+      const request=indexedDB.open("cg50-ipad-v1");
+      request.onupgradeneeded=()=>request.transaction.abort();
+      request.onerror=()=>reject(Error("这个浏览器里没有找到旧进度哦。"));
+      request.onsuccess=()=>resolve(request.result);
+    });
+    if(!db.objectStoreNames.contains("files"))
+      throw Error("这个浏览器里没有找到旧进度哦。");
+    const state=await new Promise((resolve,reject)=>{
+      const request=db.transaction("files","readonly").objectStore("files").get("state");
+      request.onsuccess=()=>resolve(request.result);
+      request.onerror=()=>reject(Error("读取没成功呀，再试一次哦。"));
+    });
+    if(!state)throw Error("没有找到已保存的旧进度哦。");
+    const blob=new Blob([state],{type:"application/octet-stream"});
+    if(!blob.size)throw Error("旧进度文件是空的哦。");
+    const url=URL.createObjectURL(blob),a=document.createElement("a");
+    a.href=url;a.download="CG50-Pro-Max-progress-backup-"+Date.now()+".bin";
+    document.body.append(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+    status.textContent="备份下载已发起啦，记得收好哦！";
+  }catch(error){status.textContent=error.message;}
+  finally{if(db)db.close();button.disabled=false;}
+};
+if("serviceWorker" in navigator){
+  navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"})
+    .then(reg=>{
+      if(reg.waiting)reg.waiting.postMessage("ACTIVATE_UPDATE");
+    }).catch(()=>{});
+}
+</script>
+</body>
+</html>

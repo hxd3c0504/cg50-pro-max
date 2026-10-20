@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.2.1",
+  "releaseId": "v1.2.1-20261019-155328-415561",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "修复部分存档黑屏后 AC/ON 无法唤醒的问题。"
+  ],
+  "notesEn": [
+    "Fixed AC/ON wake-up failure affecting some saved states."
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}

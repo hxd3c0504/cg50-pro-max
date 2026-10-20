@@ -1,0 +1,205 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#172331">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>CG50 Pro Max — iPad test</title>
+<style>
+:root{color-scheme:light dark;font-family:system-ui;background:#172331;color:#edf4fc}
+body{max-width:820px;margin:auto;padding:20px}
+h1{font-size:23px}small{display:block;margin:10px 0;color:#c4cfdd}
+fieldset{border:1px solid #8294a6;border-radius:12px;margin:16px 0}
+label{display:block;margin:12px 0}
+button{font:inherit;padding:12px;border:1px solid #7b97b5;border-radius:9px;
+background:#263c54;color:white;cursor:pointer;touch-action:manipulation}
+button:disabled{opacity:.45}
+button:hover{background:#d6e8ff;color:#172331}
+canvas{display:block;width:100%;height:auto;background:black;
+image-rendering:pixelated;border-radius:6px}
+#keys{display:grid;grid-template-columns:repeat(6,1fr);gap:7px;margin-top:15px}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}
+#status,#offline{overflow-wrap:anywhere}
+</style>
+<h1>CG50 Pro Max · iPad core test</h1>
+<p id="status">Select your firmware and saved state.</p>
+<small id="offline">Checking offline support…</small>
+<fieldset id="imports">
+<legend>First-time import · stays on this device</legend>
+<label>32 MiB firmware <input id="flash" type="file" accept=".bin"></label>
+<label>Saved progress <input id="state" type="file" accept=".bin"></label>
+<button id="start">Import and start</button>
+</fieldset>
+<canvas id="screen" width="384" height="216"></canvas>
+<div class="actions">
+<button id="save" disabled>Save progress</button>
+<button id="export" disabled>Export saved progress</button>
+</div>
+<div id="keys"></div>
+<small>Enter: EXE · Backspace: DEL · Escape: EXIT · Tab: MENU.
+Tap Shift by itself for calculator SHIFT.</small>
+<script>
+const $=s=>document.querySelector(s);
+const status=s=>$('#status').textContent=s;
+const worker=new Worker('./worker.js');
+let sequence=0,active=false,saving=false;
+const pending=new Map();
+function call(action,extra={}){
+  return new Promise((resolve,reject)=>{
+    const id=++sequence;
+    const timer=setTimeout(()=>{
+      pending.delete(id);reject(Error("Emulator request timed out"));
+    },30000);
+    pending.set(id,{resolve,reject,timer});
+    worker.postMessage({id,action,...extra});
+  });
+}
+worker.onmessage=({data:m})=>{
+  if(m.type==='frame'){
+    const c=$('#screen');
+    if(c.width!==m.width||c.height!==m.height){
+      c.width=m.width;c.height=m.height;
+    }
+    c.getContext('2d').putImageData(
+      new ImageData(new Uint8ClampedArray(m.pixels),m.width,m.height),0,0);
+    return;
+  }
+  if(m.type==='fault'){
+    active=false;status('Emulator stopped: '+m.error);return;
+  }
+  const p=pending.get(m.id);
+  if(!p)return;
+  clearTimeout(p.timer);pending.delete(m.id);
+  m.error?p.reject(Error(m.error)):p.resolve(m.result);
+};
+worker.onerror=e=>{active=false;status('Worker error: '+e.message);};
+
+const dbReady=new Promise((resolve,reject)=>{
+  const r=indexedDB.open('cg50-ipad-v1',1);
+  r.onupgradeneeded=()=>r.result.createObjectStore('files');
+  r.onsuccess=()=>resolve(r.result);
+  r.onerror=()=>reject(r.error);
+});
+async function read(key){
+  const db=await dbReady;
+  return new Promise((resolve,reject)=>{
+    const r=db.transaction('files').objectStore('files').get(key);
+    r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error);
+  });
+}
+async function write(values){
+  const db=await dbReady;
+  return new Promise((resolve,reject)=>{
+    const tx=db.transaction('files','readwrite');
+    for(const [key,value] of Object.entries(values))
+      tx.objectStore('files').put(value,key);
+    tx.oncomplete=resolve;
+    tx.onabort=()=>reject(tx.error||Error('Storage write aborted'));
+    tx.onerror=()=>reject(tx.error);
+  });
+}
+async function boot(flash,state){
+  status('Starting calculator…');
+  await call('boot',{flash,state});
+  active=true;$('#imports').hidden=true;
+  $('#save').disabled=false;$('#export').disabled=false;
+  status('Running · test the screen and keys');
+}
+$('#start').onclick=async()=>{
+  const button=$('#start');button.disabled=true;
+  try{
+    const f=$('#flash').files[0],s=$('#state').files[0];
+    if(!f||!s)throw Error('Select both files');
+    if(f.size!==33554432)throw Error('Firmware must be exactly 32 MiB');
+    const flash=await f.arrayBuffer(),state=await s.arrayBuffer();
+    await boot(flash,state);
+    await write({flash,state});
+    if(navigator.storage?.persist)
+      navigator.storage.persist().catch(()=>{});
+    status('Imported and saved locally');
+  }catch(e){status(e.message);}
+  finally{button.disabled=false;}
+};
+async function save(){
+  if(!active||saving)return;
+  saving=true;
+  try{
+    const bytes=await call('save');
+    await write({state:bytes});
+    status('Progress saved on this device');
+  }catch(e){status('Save failed: '+e.message);}
+  finally{saving=false;}
+}
+$('#save').onclick=save;
+$('#export').onclick=async()=>{
+  try{
+    const state=await read('state');
+    if(!state)throw Error('No saved progress');
+    const url=URL.createObjectURL(new Blob([state]));
+    const a=document.createElement('a');
+    a.href=url;a.download='cg50-ipad-state.bin';a.click();
+    setTimeout(()=>URL.revokeObjectURL(url),60000);
+  }catch(e){status(e.message);}
+};
+const rows=[
+ ['F1','F2','F3','F4','F5','F6'],
+ ['SHIFT','OPTN','VARS','MENU','LEFT','RIGHT'],
+ ['ALPHA','SQUARE','POWER','EXIT','UP','DOWN'],
+ ['7','8','9','DEL','AC','EXE'],
+ ['4','5','6','*','/','('],
+ ['1','2','3','+','-',')'],
+ ['0','.','NEG','sin','cos','tan']
+];
+async function key(k){
+  if(!active)return;
+  try{
+    const ok=await call('key',{key:k});
+    if(!ok)status('Key name not recognized: '+k);
+  }catch(e){status(e.message);}
+}
+for(const row of rows)for(const k of row){
+  const b=document.createElement('button');
+  b.textContent=k==='AC'?'AC/ON':k;
+  b.onclick=()=>key(k);$('#keys').append(b);
+}
+let shiftDown=false,shiftUsed=false;
+document.addEventListener('keydown',e=>{
+  if(e.target.matches('input,select,textarea')||e.ctrlKey||e.metaKey||e.altKey)return;
+  if(e.key==='Shift'){if(!shiftDown)shiftUsed=false;shiftDown=true;return;}
+  if(shiftDown)shiftUsed=true;
+  const map={Enter:'EXE',Backspace:'DEL',Escape:'EXIT',Tab:'MENU',
+    ArrowLeft:'LEFT',ArrowRight:'RIGHT',ArrowUp:'UP',ArrowDown:'DOWN'};
+  const k=map[e.key]||(/^[0-9.+*/()=-]$/.test(e.key)?e.key:null)||
+    (/^F[1-6]$/.test(e.key)?e.key:null);
+  if(k){e.preventDefault();if(!e.repeat)key(k);}
+});
+document.addEventListener('keyup',e=>{
+  if(e.key==='Shift'){
+    if(shiftDown&&!shiftUsed)key('SHIFT');
+    shiftDown=false;
+  }
+});
+window.addEventListener('blur',()=>{
+  shiftDown=false;shiftUsed=false;
+  if(active)call('release').catch(()=>{});
+});
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden)save();
+});
+setInterval(save,60000);
+(async()=>{
+  try{
+    const [flash,state]=await Promise.all([read('flash'),read('state')]);
+    if(flash&&state)await boot(flash,state);
+  }catch(e){status('Startup failed: '+e.message);}
+})();
+(async()=>{
+  try{
+    if(!('serviceWorker' in navigator))throw Error('HTTPS is required on iPad');
+    await navigator.serviceWorker.register('./sw.js');
+    await navigator.serviceWorker.ready;
+    $('#offline').textContent='App files cached for offline use. Keep an exported progress backup.';
+  }catch(e){$('#offline').textContent='Offline setup: '+e.message;}
+})();
+</script>
+</html>

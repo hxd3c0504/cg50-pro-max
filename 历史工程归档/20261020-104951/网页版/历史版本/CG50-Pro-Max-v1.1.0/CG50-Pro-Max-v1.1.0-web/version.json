@@ -1,0 +1,22 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.1.0",
+  "releaseId": "v1.1.0-20261013-161753",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "支持设备上的触屏轻震反馈，并保留按键高亮。",
+    "画图忙时自动加速，空闲时降低占用。",
+    "新增版本号与更新说明弹窗。",
+    "左上角显示联网同步、更新或离线状态。",
+    "重载配置文件后显示成功或失败，成功时显示版本号。",
+    "新用户采用未初始化的初始存档；已有进度保留。"
+  ],
+  "notesEn": [
+    "Touch vibration on supported devices, with visual key feedback.",
+    "Automatic acceleration while busy and reduced work while idle.",
+    "Version information and release notes.",
+    "Online, update and offline status in the header.",
+    "Reload result feedback with the installed version.",
+    "An uninitialized starting state for new users. Existing progress is retained."
+  ]
+}

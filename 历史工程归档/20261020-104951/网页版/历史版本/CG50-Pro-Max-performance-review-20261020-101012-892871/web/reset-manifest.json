@@ -1,0 +1,131 @@
+{
+  "version": "1.2.2",
+  "releaseId": "v1.2.2-performance-20261020-101649-652459",
+  "files": [
+    {
+      "path": "build-info.json",
+      "size": 173,
+      "sha256": "9e0cf9d06ae1c3c23ff8a100bd54e47893b642cd7a7691d4606b4f99c9774155"
+    },
+    {
+      "path": "calculator-front.png",
+      "size": 2823003,
+      "sha256": "a739080e036348bc2d8d3e639b02f4033d0835be454c10d203d83a50e4c73fca"
+    },
+    {
+      "path": "cg50-announcements.js",
+      "size": 3984,
+      "sha256": "df80945034919447877ef4fec7b27fb439fd628407983323ca9ab9ae3ff6a789"
+    },
+    {
+      "path": "cg50-brand.js",
+      "size": 838,
+      "sha256": "7c7d809f7f82704242cfd1fc94d78e51cb6c3150bc3fd63b095d0a66a6ab08f0"
+    },
+    {
+      "path": "cg50-display.js",
+      "size": 3139,
+      "sha256": "3c6434cb6259b4513171c65784d80e4585f8d5a6bf2da73536118215989c33ff"
+    },
+    {
+      "path": "cg50-factory-reset.js",
+      "size": 11255,
+      "sha256": "a469997eb946438d399b06565eb8bed88e1a9765ce4a5a09ba44a7bc95738c33"
+    },
+    {
+      "path": "cg50-features.js",
+      "size": 6562,
+      "sha256": "d9de7f4b9a4edba924b281a793861a87dfd802512e90c4407c2bb0c45ccfb09d"
+    },
+    {
+      "path": "cg50-runtime-diagnostics.js",
+      "size": 4679,
+      "sha256": "ca807d12a2795ca8f55e4f7349e8c11d191e5f952dcf9faf8a6d02e59d5e2813"
+    },
+    {
+      "path": "cg50-update.js",
+      "size": 9391,
+      "sha256": "16b6648aa3ef06e9e63c864436ee8bca6a3eaedaa6b4e9fc622e2f9ff2c38a09"
+    },
+    {
+      "path": "cg50-usage.js",
+      "size": 4070,
+      "sha256": "f31ade42e6d4e381e8646f6cfb07c86ec9f785580d771aa367b1e047e4337aa0"
+    },
+    {
+      "path": "cg50.wasm",
+      "size": 6044233,
+      "sha256": "717240b8514830ee66747c13db4ad7ab004029e9c66bef9b4199d237111f7ea0"
+    },
+    {
+      "path": "defaults/cg50_state.bin",
+      "size": 126941,
+      "sha256": "3a6c8604831b8626820a72634eaa962b0d5f9e83d3d7eb97f45abdeefa163c40"
+    },
+    {
+      "path": "defaults/flash_full.bin",
+      "size": 33554432,
+      "sha256": "ca0e23118751063d134f4d71252f4ab5341ee1177cb3d4c1947911220961e8db"
+    },
+    {
+      "path": "icon-180.png",
+      "size": 33441,
+      "sha256": "a064436220d76702dfdf0edd7aedb254fb7ebb8a7eb2ae80aaf82dbb74650b45"
+    },
+    {
+      "path": "icon-192.png",
+      "size": 37717,
+      "sha256": "7164371bb30ef6892b4a5910a5ab17d067ea29ae715ec3420993b02458b2d255"
+    },
+    {
+      "path": "icon-512.png",
+      "size": 249270,
+      "sha256": "404dfb808a4bee10d51ad8f0e485722257f6f7161178b13009362b9da581c5ae"
+    },
+    {
+      "path": "index.html",
+      "size": 32907,
+      "sha256": "dc9001127882ce7fb72dbc5fe31c30bd65408be2a4044ae9f872892f21109fe5"
+    },
+    {
+      "path": "ipad-adapter.js",
+      "size": 17002,
+      "sha256": "ec41648fd0a87877e3f310cb5cab045bc550b96f57e973fb2f1814fa9b0329e8"
+    },
+    {
+      "path": "manifest.webmanifest",
+      "size": 466,
+      "sha256": "20cb77e730ddc5e89227e3dee64f2964de97618bfdf5ef1e7b280b61697f5096"
+    },
+    {
+      "path": "stats/index.html",
+      "size": 4034,
+      "sha256": "5428a27cfd602b17f415e12ee69799ad54924d00bdf6ac956df7881b7a68ba20"
+    },
+    {
+      "path": "stats/stats.js",
+      "size": 6620,
+      "sha256": "9bc7ba5694ded017652e53c392f8e1e3082c6a638ca5928f1e36658812baab5b"
+    },
+    {
+      "path": "sw.js",
+      "size": 11044,
+      "sha256": "ff5b692ff1b1b28d86df441f019cd1b78454d2914f231d2c8760b9bf362af86f"
+    },
+    {
+      "path": "version.json",
+      "size": 429,
+      "sha256": "454e5781a47b6c9ccd06ee63a44f254b2ecf1eacaaff9b04d64bc4b4363bcd27"
+    },
+    {
+      "path": "wasm_exec.js",
+      "size": 16992,
+      "sha256": "0c949f4996f9a89698e4b5c586de32249c3b69b7baadb64d220073cc04acba14"
+    },
+    {
+      "path": "worker.js",
+      "size": 7886,
+      "sha256": "1ecf18e909d06ca7ae0f5a70cbb487fda7e02144271ca72ee78977dc09432cc2"
+    }
+  ]
+}

@@ -1,0 +1,1618 @@
+{
+  "说明": "源码归档，不是完整部署包。未包含私密文件、依赖、固件及用户存档。",
+  "未纳入项目": [
+    {
+      "path": "Mac软件版/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "Mac软件版/历史安装包/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "Mac软件版/历史安装包/CG50-Pro-Max-v1.0.0-work-20261013-104522/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "Mac软件版/历史安装包/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "Mac软件版/历史安装包/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/dist/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "Mac软件版/源码入口/v1.0.0-Mac目录",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "Mac软件版/源码入口/v1.0.0-完整混合工程",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "Mac软件版/源码入口/Mac窗口代码.docx",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "网页版/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.runtime-review-integrated-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.v121-core-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.v121-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.runtime-clock-review-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/.v122-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.2-work-20261020-100118-047440/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5/CG50-Pro-Max-v1.1.5-web-netlify-20261019-140552-634262/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5/CG50-Pro-Max-v1.1.5-web-netlify-20261019-140552-634262/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5/CG50-Pro-Max-v1.1.5-web-netlify-20261019-140552-634262/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3/CG50-Pro-Max-v1.1.3-web-netlify-20261013-213800-820497/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3/CG50-Pro-Max-v1.1.3-web-netlify-20261013-213800-820497/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3/CG50-Pro-Max-v1.1.3-web-netlify-20261013-213800-820497/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4/CG50-Pro-Max-v1.1.4-web-netlify-20261014-111036-490740/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4/CG50-Pro-Max-v1.1.4-web-netlify-20261014-111036-490740/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4/CG50-Pro-Max-v1.1.4-web-netlify-20261014-111036-490740/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/.v113-production-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/netlify.toml.before-dependency-fix",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.3-work-20261013-213800-820497/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-brand-ready",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-reset-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-stats-backend-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-update-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-package-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-production-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/.v111-usage-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-final-package-20261013-201324-032823/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-final-package-20261013-201324-032823/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-final-package-20261013-201324-032823/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-full-update-20261013-194607-651097/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-full-update-20261013-194607-651097/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-full-update-20261013-194607-651097/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-manual-reset-20261013-195926-890246/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-manual-reset-20261013-195926-890246/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1-work-20261013-165641-536641/backups/before-manual-reset-20261013-195926-890246/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/.v115-package-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/.v115-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/.v115-lifecycle-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.5-work-20261019-140347-198368/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0/CG50-Pro-Max-v1.0.0-mac-arm64.pkg",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0/CG50-Pro-Max-v1.0.0-web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0/CG50-Pro-Max-v1.0.0-web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0/CG50-Pro-Max-v1.0.0-web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/.v120-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/.v120-production-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/.v120-package-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0-work-20261019-145021-486143/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/.v121-core-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/.v121-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1-work-20261019-154618-235967/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1/CG50-Pro-Max-v1.1.1-web-netlify/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1/CG50-Pro-Max-v1.1.1-web-netlify/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.1/CG50-Pro-Max-v1.1.1-web-netlify/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0/CG50-Pro-Max-v1.1.0-web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0/CG50-Pro-Max-v1.1.0-web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0/CG50-Pro-Max-v1.1.0-web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/.v110-features-installed",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/new-first-launch-state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/.v110-packaged",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.0-work-20261013-160140/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.performance-production-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.performance-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.runtime-review-integrated-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.v121-core-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.v121-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.runtime-clock-review-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/.v122-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-performance-review-20261020-101012-892871/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1/CG50-Pro-Max-v1.2.1-web-netlify-20261019-190653-358318000/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1/CG50-Pro-Max-v1.2.1-web-netlify-20261019-190653-358318000/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.1/CG50-Pro-Max-v1.2.1-web-netlify-20261019-190653-358318000/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/.v100-packaged",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/.v100-core-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/.v100-display-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac-core-check",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/__pycache__",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/dist/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/dist/CG50-Pro-Max-v1.0.0-mac-arm64/CG50-Pro-Max-v1.0.0-mac-arm64.pkg",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/emu_go/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/os/flash_dump/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/mac/os/flash_dump/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.0.0-work-20261013-104522/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0/CG50-Pro-Max-v1.2.0-web-netlify-20261019-145021-486143/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0/CG50-Pro-Max-v1.2.0-web-netlify-20261019-145021-486143/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.2.0/CG50-Pro-Max-v1.2.0-web-netlify-20261019-145021-486143/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/node_modules",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/.v114-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/.v114-package-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/.v114-admin-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/backups/before-client-20261014-111036-490740/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/backups/before-client-20261014-111036-490740/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-v1.1.4-work-20261014-110604-640911/backups/before-client-20261014-111036-490740/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/.netlify",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/.runtime-review-integrated-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/.v121-core-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/.v121-preview-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/admin-password.txt",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/.runtime-clock-review-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/历史版本/CG50-Pro-Max-runtime-review-20261019-201014-572409/ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "网页版/早期工程入口/cg50-ipad",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/早期工程入口/CG50-iPad-web-z8p4rtwe",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/早期工程入口/cg50-web",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "网页版/早期工程入口/ipad",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "共用资料/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/releases",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-Pro-Max-v1.1.4-source-check.txt",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/.DS_Store",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-Pro-Max-v0.1.7-mac.pkg",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/Mac窗口代码.docx",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/Last login.docx",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-Pro-Max-v1.2.0-diagnostic-1792392974126.json",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-Pro-Max.png",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-源码复盘-20261019-194911.zip",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-front.png",
+      "reason": "兼容链接，不复制链接目标"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/core/webui.go.before-manual-boot",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/core/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/web/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/web/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/backups/automatic-20261012-191931-775159/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-ipad/backups/20261012-190421-690491/web/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/Physium.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/EACTWORK.tmp",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/PictPlot.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/Geometry.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/3DGraph.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/ProbSim.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ALPHAMEM.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/FINANCE.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/STAT.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/EQUATION.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/CONICS.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/SETUP.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/DYNAMEM.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/RECUR.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/SYSTEM.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/Y=DATA.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/DIST.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@3DGRAPH/3DGRAPH.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@GEOM/@IMAGE.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/SSHEET/_SETTING.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/SSHEET/SHEET.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@PROBSIM/ProbSeed.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@PROBSIM/ProbAdv.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@PROBSIM/ProbRand.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@PROBSIM/ProbVer.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/@PROBSIM/ProbSet.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_2.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_3.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_1.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_4.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_5.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_7.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_6.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/@MainMem/ECON4/ECON4_8.g3m",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Coaster_car.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Wind_turbine.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Jumping_fish.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Hearts.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Chocolate_flow.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Clock_time_lapse.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Bar_chart.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3b/Pendulum.g3b",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Tiles.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Bugle.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Sunsetbridge.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Round_point.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Satellite_dish.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Can_telephones.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Rising_coins.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Pyramids.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Amusement_park.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Roller_coaster.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Arches.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Roofs.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Amsterdam.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Building.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Beach.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Hexagonal_shape.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/_Blank.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Cans.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Ferris_wheel.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Bowling_pins.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Wooden_fence.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Two_loops.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Power_plant.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Water_slide.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Stones.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Forest.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Arched_roof.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Screw.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Bridge.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Stained_glass.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Books.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Steel_tower.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Bathroom.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Solar_system.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Footbridge.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Night_fountain.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Fountain.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Nautilus.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Swimming_pool.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Power_station.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Clocks.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Floorplan.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Harbour_bridge.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Glass_dome.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Gate.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Pancakes.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50备份/CASIO/g3p/Chef_juggling.g3p",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-源码复盘-20261019-194911/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/FlashDump.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/cmake_install.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/myaddin.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/myaddin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/cmake.check_cache",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/Makefile.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/progress.marks",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/CMakeDirectoryInformation.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/Makefile2",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeDetermineCompilerABI_CXX.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeDetermineCompilerABI_C.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeCXXCompiler.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeCCompiler.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeFXCONVCompiler.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CMakeSystem.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CompilerIdC/CMakeCCompilerId.o",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/4.4.4/CompilerIdCXX/CMakeCXXCompilerId.o",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/DependInfo.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/depend.internal",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/compiler_depend.internal",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/compiler_depend.make",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/depend.make",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/cmake_clean.cmake",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/progress.make",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/build.make",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/flags.make",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/assets-cg/example.png.o",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/src/main.c.obj",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/build-cg/CMakeFiles/myaddin.dir/src/main.c.obj.d",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/assets-cg/icon-cg.xcf",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-flashdump/src/main.c.before-usb-fix",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/CG50-iPad-web-z8p4rtwe/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/__pycache__",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/.git",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/build-mac-standalone.py.before-lock-fix",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/build-cg50-pro-max.py.before-startup-fix-20261012-171114-244772",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/update-cg50-v014.py.before-owner-fix-20261012-165657-103205",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/ui-backups/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/ui-backups/v014-20261012-165709-152664/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/ui-backups/v014-20261012-165709-152664/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/tools/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/dist/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/dist/standalone-mac-20261012-182011-346663/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/dist/standalone-mac-20261012-152308-820236/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/dist/standalone-mac-20261012-145125-892000/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/emu_go/webui.go.before-manual-boot",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/emu_go/testdata/aluprobe.g3a",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/build_go_lib.ps1",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradlew",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/build.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/settings.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradle.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradlew.bat",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/build.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/androidTest/java/com/hexbinoct/cg50/ExampleInstrumentedTest.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/test/java/com/hexbinoct/cg50/ExampleUnitTest.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/keepRules/rules.keep",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/java/com/hexbinoct/cg50/MainActivity.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/java/com/hexbinoct/cg50/NativeBridge.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/java/com/hexbinoct/cg50/KeypadView.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/java/com/hexbinoct/cg50/KeyMap.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/app/src/main/java/com/hexbinoct/cg50/CalcSurfaceView.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradle/gradle-daemon-jvm.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradle/wrapper/gradle-wrapper.jar",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/gradle/wrapper/gradle-wrapper.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/android/.idea/.name",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/os/flash_dump/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/os/flash_dump/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/os/devic_probes/aluprobe_2/fxlink-aluprobe-probe2-2026.06.05-06h01-1.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/os/devic_probes/alusweep_shtest/fxlink-alusweep-sweep-2026.06.05-06h33-1.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-web/os/devic_probes/alusweep_shtest/fxlink-shtest-cpu-2026.06.05-06h41-1.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-firmware/usb-debug.log",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-firmware/fxlink-flashdump-flash_-2026.10.12-12h25-1.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Right-Hand-20261013-093010-644287/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Right-Hand-20261013-093010-644287/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Right-Hand-20261013-093010-644287/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Fix-Fast-20261013-092452-642323/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Fix-Fast-20261013-092452-642323/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Fix-Fast-20261013-092452-642323/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Pro-Max-v1.0.0-web-icons-20261013-104233-738221/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Pro-Max-v1.0.0-web-icons-20261013-104233-738221/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Pro-Max-v1.0.0-web-icons-20261013-104233-738221/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Auto-Update-20261013-095321-030463/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Auto-Update-20261013-095321-030463/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Auto-Update-20261013-095321-030463/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Stable-Update-20261013-100234-557210/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Stable-Update-20261013-100234-557210/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-Stable-Update-20261013-100234-557210/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Auto-20261012-191944-839022/cg50.wasm",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Auto-20261012-191944-839022/defaults/flash_full.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/ipad/CG50-iPad-Auto-20261012-191944-839022/defaults/cg50_state.bin",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/.git",
+      "reason": "兼容链接或可重新生成的依赖/缓存目录"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/.cg50-import-checked",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/build_go_lib.ps1",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradlew",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/build.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/settings.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradle.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradlew.bat",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/build.gradle.kts",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/androidTest/java/com/hexbinoct/cg50/ExampleInstrumentedTest.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/test/java/com/hexbinoct/cg50/ExampleUnitTest.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/keepRules/rules.keep",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/java/com/hexbinoct/cg50/MainActivity.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/java/com/hexbinoct/cg50/NativeBridge.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/java/com/hexbinoct/cg50/KeypadView.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/java/com/hexbinoct/cg50/KeyMap.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/app/src/main/java/com/hexbinoct/cg50/CalcSurfaceView.kt",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradle/gradle-daemon-jvm.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradle/wrapper/gradle-wrapper.jar",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/gradle/wrapper/gradle-wrapper.properties",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/mac/android/.idea/.name",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/早期工程/cg50-pro-max/ipad/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/整理记录/20261020-103010-559204/撤回整理.py",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "共用资料/整理记录/20261020-103010-559204/迁移记录.json",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    },
+    {
+      "path": "共用资料/文档与图片/.DS_Store",
+      "reason": "Finder 元数据"
+    },
+    {
+      "path": "共用资料/文档与图片/Mac窗口代码.docx",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/文档与图片/Last login.docx",
+      "reason": "固件、存档、编译产物或未分类文件，待核对"
+    },
+    {
+      "path": "共用资料/文档与图片/CG50-Pro-Max-v1.2.0-diagnostic-1792392974126.json",
+      "reason": "可能含凭据、诊断或本地路径记录，待核对"
+    }
+  ],
+  "发布附件": "候选安装包和 ZIP 仍在本地，尚未公开上传。"
+}

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>CG50 Pro Max · 统计与公告管理</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,-apple-system,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;padding:24px;background:#101923;color:#edf4fb}
+main{max-width:1000px;margin:auto}
+h1{font-size:25px;margin-bottom:4px}
+h2{font-size:21px}
+small,.hint{color:#aabbcc;line-height:1.6}
+#login,.actions{display:flex;flex-wrap:wrap;gap:10px;margin:20px 0}
+input,button,select,textarea{font:inherit;padding:10px;border-radius:9px;
+border:1px solid #637c99;background:#1d3045;color:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.55;cursor:wait}
+#cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+.card{padding:18px;background:#1d3045;border-radius:12px}
+.card b{display:block;font-size:30px;margin-top:10px}
+.panel{margin-top:24px;padding:20px;border:1px solid #31465b;border-radius:14px}
+#chart{display:block;width:100%;height:auto;min-height:180px}
+#chart-detail{min-height:24px;color:#b6d9ff}
+#announcement-form label{display:block;margin:16px 0 6px}
+#announcement-title,#announcement-content{width:100%}
+textarea{min-height:150px;resize:vertical}
+dialog{max-width:500px;width:calc(100% - 32px);border:1px solid #637c99;
+border-radius:16px;padding:24px;background:#101923;color:#edf4fb}
+dialog::backdrop{background:#0008}
+#preview-content{white-space:pre-wrap;overflow-wrap:anywhere;max-height:55vh;overflow:auto}
+[hidden]{display:none!important}
+</style>
+</head>
+<body><main>
+<h1>CG50 Pro Max · 统计与公告管理</h1>
+<small>V 1.2.0 · 管理页面</small>
+<form id="login">
+<label for="password">管理密码</label>
+<input id="password" type="password" autocomplete="current-password" required>
+<button id="refresh">登录 / 刷新数据</button>
+<button id="logout" type="button">退出</button>
+</form>
+<p id="status" role="status">输入管理密码即可查看统计和管理公告。</p>
+<section id="result" hidden>
+<div id="cards">
+<div class="card">今日使用次数<b id="today-sessions"></b></div>
+<div class="card">累计使用次数<b id="total-sessions"></b></div>
+<div class="card">近 7 天使用次数<b id="seven-days"></b></div>
+</div>
+<div class="panel">
+<h2>每日使用次数</h2>
+<label for="range">趋势范围：</label>
+<select id="range"><option value="7">近 7 天</option>
+<option value="30" selected>近 30 天</option></select>
+<svg id="chart" viewBox="0 0 900 300" role="img" aria-label="每日使用次数折线图"></svg>
+<p id="chart-detail" role="status">点击或轻触数据点查看次数。</p>
+</div>
+<div class="panel">
+<h2>用户公告</h2>
+<p id="announcement-state" role="status"></p>
+<form id="announcement-form">
+<label for="announcement-title">弹窗标题</label>
+<input id="announcement-title" maxlength="80" required>
+<label for="announcement-content">弹窗内容</label>
+<textarea id="announcement-content" maxlength="4000" required></textarea>
+<div class="actions">
+<button id="preview" type="button">预览弹窗</button>
+<button id="publish" type="submit">发布公告</button>
+<button id="withdraw" type="button">撤回公告</button>
+</div>
+</form>
+<p id="announcement-status" role="status"></p>
+<p class="hint">发布后，用户在下次启动并联网时检查。修改后重新发布会成为新公告，
+已经确认过上一条公告的用户也会收到。撤回后不再向新启动的用户展示。</p>
+</div>
+</section>
+<p class="hint">成功操作计算器才计数，间隔 30 分钟没有操作后再次使用算新的一次。
+日期按北京时间统计。离线记录联网后补报，统计为近似值。</p>
+</main>
+<dialog id="preview-dialog" aria-labelledby="preview-title">
+<h2 id="preview-title"></h2><p id="preview-content"></p>
+<button id="preview-close" type="button">知道啦</button>
+</dialog>
+<script src="./stats.js"></script>
+</body></html>

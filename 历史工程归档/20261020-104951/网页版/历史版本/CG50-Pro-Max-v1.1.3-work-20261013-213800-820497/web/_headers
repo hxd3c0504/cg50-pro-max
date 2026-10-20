@@ -1,0 +1,19 @@
+/version.json
+  Cache-Control: no-store
+/sw.js
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+
+# CG50 FULL UPDATE BEGIN
+/*
+  Cache-Control: no-cache
+/version.json
+  Cache-Control: no-store
+/reset-manifest.json
+  Cache-Control: no-store
+/sw.js
+  Cache-Control: no-cache
+/api/*
+  Cache-Control: no-store
+# CG50 FULL UPDATE END

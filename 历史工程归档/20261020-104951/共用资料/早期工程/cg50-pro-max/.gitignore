@@ -1,0 +1,26 @@
+
+# CG50 generated files and local data
+.DS_Store
+.env
+.env.*
+__pycache__/
+*.pyc
+node_modules/
+backups/
+ui-backups/
+dist/
+build/
+build-cg/
+build-fx/
+build-fxg3a/
+*.bin
+*.wasm
+*.pkg
+*.g3a
+*.g1a
+*.o
+*.a
+*.log
+*.app/
+.netlify/
+.cg50-import-checked

@@ -1,0 +1,7 @@
+{
+  "name": "CG50 Pro Max",
+  "target": "iPad browser",
+  "stage": "core-only",
+  "built": "2026-10-12T18:30:27.658144",
+  "go": "go version go1.27.2 darwin/arm64"
+}

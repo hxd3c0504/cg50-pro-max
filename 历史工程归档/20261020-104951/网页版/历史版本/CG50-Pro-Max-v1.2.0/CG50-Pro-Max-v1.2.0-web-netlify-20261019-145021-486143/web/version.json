@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.2.0",
+  "releaseId": "v1.2.0-20261019-145021-486143",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "解决了用一会死机的遗留bug🐛 设置内增加“运行诊断”按钮 遇到bug请复制诊断内容并提交作者"
+  ],
+  "notesEn": [
+    "Fixed the lingering freeze issue 🐛 Added Run diagnostics to Settings. If you encounter a bug, copy the diagnostic report and send it to the author."
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}

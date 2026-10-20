@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.1.5",
+  "releaseId": "v1.1.5-20261019-140552-634262",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "改善切换应用后的运行恢复与画面刷新"
+  ],
+  "notesEn": [
+    "Improve execution recovery and screen refresh after switching apps."
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}

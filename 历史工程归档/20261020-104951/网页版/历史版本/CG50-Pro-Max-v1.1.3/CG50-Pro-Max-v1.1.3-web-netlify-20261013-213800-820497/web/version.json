@@ -1,0 +1,14 @@
+{
+  "app": "CG50 Pro Max",
+  "version": "1.1.3",
+  "releaseId": "v1.1.3-20261013-213800-820497",
+  "graphicsAcceleration": true,
+  "notesZh": [
+    "修复了一些已知问题"
+  ],
+  "notesEn": [
+    "Fixed some known issues."
+  ],
+  "fullRefresh": true,
+  "preserveProgress": true
+}
