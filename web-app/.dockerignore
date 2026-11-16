@@ -1,0 +1,10 @@
+.git
+.railway
+node_modules
+.env
+.env.*
+admin-password.txt
+checks
+tests
+data
+*.sqlite*

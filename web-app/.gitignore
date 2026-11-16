@@ -1,0 +1,11 @@
+.DS_Store
+.env
+.env.*
+admin-password.txt
+node_modules/
+.railway/
+checks/
+data/
+*.sqlite*
+*.bin
+*.wasm
