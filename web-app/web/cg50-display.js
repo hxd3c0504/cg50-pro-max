@@ -2,7 +2,7 @@
 (()=>{
 "use strict";
 window.CG50DirectFrames=true;
-let source=null,queued=false,raf=0,paintCount=0;
+let source=null,queued=false,raf=0;
 const views=[];
 function place(v){
   const r=v.image.getBoundingClientRect(),p=v.parent.getBoundingClientRect();
@@ -13,7 +13,7 @@ function place(v){
   });
 }
 function paint(){
-  queued=false;raf=0;paintCount++;
+  queued=false;raf=0;
   if(!source)return;
   for(const v of views){
     place(v);
@@ -41,10 +41,6 @@ function redraw(){
  raf=0;queued=false;schedule();
 }
 window.CG50Redraw=redraw;
-window.CG50DisplayDiagnostic=()=>({
- queued,paintCount,views:views.length,
- sourceWidth:source?.width||0,sourceHeight:source?.height||0
-});
 window.addEventListener("pageshow",redraw);
 document.addEventListener("visibilitychange",()=>{
  if(!document.hidden)redraw();

@@ -136,26 +136,12 @@ function requireRunning(){
  if(lastError)throw Error(lastError);
  if(!running)throw Error("Calculator is not running");
 }
-function diagnostics(){
- const pixels=width&&height?check(cg50Frame()):null;
- let litPixels=0;
- if(pixels)for(let i=0;i<pixels.length;i+=4)
-  if(pixels[i]||pixels[i+1]||pixels[i+2])litPixels++;
- return {
-  running,paused,scheduled,loops,lastError,
-  millisecondsSinceLoop:loops?Math.round(performance.now()-lastLoop):null,
-  heldKeys:held.size,inputSpeed,batch,litPixels,
-  stats:width?check(cg50Stats()):null
- };
-}
 let chain=Promise.resolve();
 onmessage=({data:m})=>{
  chain=chain.then(async()=>{
   await ready;
   let result=true;
-  if(m.action==="diagnostics"){
-   result=diagnostics();
-  }else if(m.action==="boot"){
+  if(m.action==="boot"){
    if(width)throw Error("Already started");
    const size=check(cg50Boot(
     new Uint8Array(m.flash),new Uint8Array(m.state),Date.now()/1000));

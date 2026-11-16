@@ -163,16 +163,13 @@ async function reset(){
   const magic=new Uint8Array(state,0,Math.min(2,state.byteLength));
   if(flash.byteLength!==33554432||state.byteLength<16||magic[0]!==31||magic[1]!==139)throw Error("VERIFY");
   if((await latest()).releaseId!==job.releaseId)throw Error("VERSION_CHANGED");
-  try{await window.CG50UsageFlush?.();}catch(_){}
   await activate(reg,worker,job.releaseId);
   await rpc(worker,{type:"COMMIT_FACTORY",cache:job.cache,token:job.token},30000);
   hint.textContent=text("文件核验完成，正在恢复初始状态…","Files verified. Restoring the initial state…");
   stopped=true;
   await window.CG50PrepareFactoryReset();
-  try{await window.CG50UsageStop?.();}catch(_){}
   await rewrite("cg50-ipad-v1","files",{flash,state});
   restored=true;
-  await rewrite("cg50-usage-v1","records",{});
   localStorage.clear();sessionStorage.clear();
   localStorage.setItem("cg50.last-announced-release",job.releaseId);
   sessionStorage.setItem(ACK,JSON.stringify({ok:true,version:job.version,releaseId:job.releaseId,at:Date.now()}));

@@ -1,7 +1,9 @@
 {
   "name": "CG50 Pro Max",
   "version": "1.2.5",
-  "releaseId": "v1.2.5-20261116-164234",
+  "releaseId": "v1.2.5-public-20261116",
   "platform": "web",
-  "built": "2026-11-16T08:42:34.085490+00:00"
+  "built": "2026-11-16T08:42:34.085490+00:00",
+  "distribution": "public-source",
+  "basedOnReleaseId": "v1.2.5-20261116-164234"
 }

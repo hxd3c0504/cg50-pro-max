@@ -1,9 +1,7 @@
-.git
-.railway
 node_modules
+.git
 .env
 .env.*
-admin-password.txt
 checks
 tests
 data

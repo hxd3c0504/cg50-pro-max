@@ -61,7 +61,7 @@ if(action==="boot")
  data={...data,epoch:inputEpoch,visible:!document.hidden};
 
 if(factoryResetting)return Promise.reject(Error("正在恢复初始状态"));
-if(fault&&action!=="diagnostics")return Promise.reject(Error(fault));
+if(fault)return Promise.reject(Error(fault));
 if(window.CG50UpdateSuspended&&["key","hold","load"].includes(action))
  return Promise.reject(Error("正在保存并更新，请稍候"));
 
@@ -77,14 +77,7 @@ if(window.CG50UpdateSuspended&&["key","hold","load"].includes(action))
       pending.delete(id);reject(Error("Emulator timed out"));
     },timeoutMs);
     
-    // CG50 V111 USAGE HOOK
-    pending.set(id,{action,
-      resolve(value){
-        resolve(value);
-        try{window.CG50UsageActivity?.(action,data);}catch(_){}
-      },
-      reject,timer
-    });
+    pending.set(id,{action,resolve,reject,timer});
 
     try{
       worker.postMessage({id,action,...data});
@@ -352,20 +345,6 @@ window.addEventListener("focus",()=>{
 });
 setInterval(automaticSave,60000);
 
-window.CG50RuntimeDiagnostic=async()=>{
- const result={
-  version:window.CG50Release?.version||null,
-  time:new Date().toISOString(),
-  pageVisible:!document.hidden,
-  active,factoryResetting,saveBusy,fault,frameReady,
-  millisecondsSinceFrame:lastFrameAt?Math.round(performance.now()-lastFrameAt):null,
-  pendingRequests:[...pending.values()].map(p=>p.action),
-  display:window.CG50DisplayDiagnostic?.()||null
- };
- try{result.worker=await rpc("diagnostics",{},4000);}
- catch(error){result.workerError=String(error);}
- return result;
-};
 
 
 

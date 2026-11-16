@@ -1,7 +1,7 @@
 
 "use strict";
-const RELEASE={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-20261116-164234", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
-const FILES=["build-info.json", "calculator-front.png", "cg50-announcements.js", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-runtime-diagnostics.js", "cg50-update.js", "cg50-usage.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "stats/index.html", "stats/stats.js", "sw.js", "version.json", "wasm_exec.js", "worker.js", "reset-manifest.json"];
+const RELEASE={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-public-20261116", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
+const FILES=["build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "reset-manifest.json"];
 const BASE=new URL("./",self.location.href).href;
 const CACHE="cg50-release-"+RELEASE.releaseId;
 const META="cg50-program-pointer-v1";
@@ -218,14 +218,10 @@ self.addEventListener("message",e=>{
 self.addEventListener("fetch",e=>{
  const r=e.request,u=new URL(r.url);
  if(r.method!=="GET"||u.origin!==self.location.origin)return;
- if(u.pathname.startsWith("/api/")||["version.json","sw.js","reset-manifest.json"].some(p=>u.pathname===new URL(p,BASE).pathname)){
+ if(["version.json","sw.js","reset-manifest.json"].some(p=>u.pathname===new URL(p,BASE).pathname)){
   e.respondWith(fetch(new Request(r,{cache:"no-store"})));return;
  }
- if(u.pathname===new URL("stats",BASE).pathname){
-  e.respondWith(Response.redirect(new URL("stats/",BASE),302));return;
- }
  u.search="";u.hash="";
- if(u.pathname===new URL("stats/",BASE).pathname)u.pathname+="index.html";
  e.respondWith((async()=>{
   if(r.mode==="navigate"&&[new URL(BASE).pathname,new URL("index.html",BASE).pathname].includes(u.pathname)){
    const meta=await caches.open(META),lr=await meta.match(LOCK);

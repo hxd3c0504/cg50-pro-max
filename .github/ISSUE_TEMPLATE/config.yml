@@ -1,0 +1,8 @@
+blank_issues_enabled: true
+contact_links:
+  - name: 使用 CG50 Pro Max 网页版
+    url: https://cg50promax.up.railway.app
+    about: 打开在线计算器
+  - name: 使用说明
+    url: https://github.com/hxd3c0504/cg50-pro-max/blob/main/docs/USAGE.md
+    about: 查看键盘、设置和进度备份说明

@@ -1,4 +1,4 @@
-window.CG50Release={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-20261116-164234", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
+window.CG50Release={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-public-20261116", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
 window.CG50ConnectionStatusManaged=true;
 
 (()=>{
