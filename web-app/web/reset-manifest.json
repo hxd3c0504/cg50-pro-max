@@ -1,11 +1,11 @@
 {
-  "version": "1.3.3",
-  "releaseId": "v1.3.3-public-20261119",
+  "version": "1.3.4",
+  "releaseId": "v1.3.4-public-20261119",
   "files": [
     {
       "path": "build-info.json",
       "size": 227,
-      "sha256": "8b8c5a931b618e8598ce82860bad9797c00bf52b55f23073e3e1d70d0270c10e"
+      "sha256": "7cf24747736aeb6bcc2f6349da7e519477e626a7bc3a00201626d13f0737f095"
     },
     {
       "path": "calculator-front.png",
@@ -34,8 +34,8 @@
     },
     {
       "path": "cg50-features.js",
-      "size": 7912,
-      "sha256": "6b7a96b14f33dcead8b2b439840786b99cbe0b1eee50754aff6c0b4e74ffc1f0"
+      "size": 7961,
+      "sha256": "89660014989bfa063db4b2f176f9e3d7a0dfaae18eb7164739724a82484071e5"
     },
     {
       "path": "cg50-update.js",
@@ -165,7 +165,7 @@
     {
       "path": "index.html",
       "size": 43471,
-      "sha256": "364e048573925751214c64969db9e38891e344aa36e16a067d6df9df93554138"
+      "sha256": "b3abf5a586216dd71b208b0a1c33152c81958abe6ba2b49b8499464e97627cc7"
     },
     {
       "path": "ipad-adapter.js",
@@ -179,8 +179,8 @@
     },
     {
       "path": "sw.js",
-      "size": 13476,
-      "sha256": "845fc9723bb910ecd3311d88edc9c14a6ddfb5dbe12c5887251fcc6dbccf44eb"
+      "size": 13525,
+      "sha256": "71f614b02bd2fb3aa58b8ba843196d9f48c73fbbfb386012fec5421ad6b7a06f"
     },
     {
       "path": "tutorial.css",
@@ -194,8 +194,8 @@
     },
     {
       "path": "version.json",
-      "size": 273,
-      "sha256": "5f2c875209aa78e84da716f3f3ecdfcccb91f12ba9998f1f5dd813799b670aaa"
+      "size": 322,
+      "sha256": "61d430331ce7dfa6c7cf1700f3a60b9a25548fa3832b779b5c4db99bc1558ccb"
     },
     {
       "path": "wasm_exec.js",
