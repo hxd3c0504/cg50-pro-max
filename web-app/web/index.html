@@ -10,8 +10,9 @@ body{margin:0;background:#eef2f6;color:#1c2737;font:15px -apple-system,BlinkMacS
 button{font:inherit;cursor:pointer}
 header{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:15px 24px;background:white;border-bottom:1px solid #dae0e8;flex-wrap:wrap}
 header strong{font-size:20px}
-.tools{display:flex;gap:8px;flex-wrap:wrap}
+.tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 .tools button,#clear{border:1px solid #d2dae4;background:white;border-radius:9px;padding:9px 12px}
+#clear{line-height:20px}
 .tools button:hover,#clear:hover{background:#edf3ff}
 .tools button:disabled{opacity:.5}
 #connection{font-size:12px;color:#b36b15;margin-left:12px}
@@ -65,10 +66,10 @@ html[data-cg50-theme="dark"] #connection.online{color:#72d4a4}
 .cg50-settings-trigger:hover #cg50-settings-tooltip,.cg50-settings-trigger:focus-within #cg50-settings-tooltip{opacity:1;visibility:visible}
 #cg50-settings-dialog{width:min(440px,calc(100vw - 48px));max-height:calc(100vh - 48px);box-sizing:border-box;overflow:auto;border:1px solid var(--cg-border);border-radius:18px;background:var(--cg-panel);color:var(--cg-text);padding:26px;box-shadow:0 24px 80px #0005}
 #cg50-settings-dialog::backdrop{background:#0007}
-.cg50-settings-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.cg50-settings-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .cg50-settings-heading h2{margin:0;font-size:24px}
 #cg50-close-settings{width:34px;height:34px;font-size:22px;border-radius:8px;cursor:pointer}
-.cg50-setting{display:block;margin-top:22px}
+.cg50-setting{display:block;margin-top:16px}
 .cg50-setting>span{display:block;font-weight:600;margin-bottom:10px}
 .cg50-toggle-setting{display:flex;align-items:center;justify-content:space-between;gap:16px}
 .cg50-toggle-setting>span{margin:0}
@@ -77,9 +78,16 @@ html[data-cg50-theme="dark"] #connection.online{color:#72d4a4}
 .cg50-toggle-setting input:checked{background:var(--cg-accent);border-color:var(--cg-accent)}
 .cg50-toggle-setting input:checked::before{transform:translateX(18px)}
 #cg50-settings-dialog select{width:100%;font:inherit;padding:10px 12px;border-radius:8px;cursor:pointer}
-#cg50-export-backup{font:inherit;padding:10px 14px;border-radius:9px}
+.cg50-settings-section{border-top:1px solid var(--cg-border);padding-top:14px;margin-top:18px}
+.cg50-settings-section h3{font-size:14px;margin:0 0 10px}
+.cg50-settings-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.cg50-settings-actions button{width:100%;min-height:42px;padding:8px;border-radius:9px}
+.cg50-settings-actions button:hover:not(:disabled){background:var(--cg-soft)}
+.cg50-settings-actions button:disabled{opacity:.5;cursor:default}
+#cg50-export-backup,#cg50-release-notes{grid-column:1/-1}
+#cg50-progress-status:empty{display:none}
 #cg50-settings-dialog p{font-size:13px;line-height:1.6;color:var(--cg-muted);margin:10px 0}
-#cg50-settings-dialog footer{border-top:1px solid var(--cg-border);padding-top:16px;margin-top:22px;font-size:13px;color:var(--cg-muted)}
+#cg50-settings-dialog #cg50-current-version{margin:0 0 10px}
 #cg50-settings-dialog :focus-visible,#cg50-settings-button:focus-visible{outline:3px solid var(--cg-accent);outline-offset:3px}
 </style>
 <!-- /CG50 SETTINGS V2 HEAD -->
@@ -98,7 +106,7 @@ body.cg50-mini header{padding:8px 10px!important;gap:6px;flex-wrap:wrap;align-it
 body.cg50-mini header .brand,body.cg50-mini header h1,body.cg50-mini header strong{font-size:14px}
 body.cg50-mini #connection{display:none}
 body.cg50-mini .tools{gap:6px}
-body.cg50-mini .tools #cg50-reload-config,body.cg50-mini .tools #capture,body.cg50-mini .tools [data-state]{display:none!important}
+body.cg50-mini .tools #cg50-reload-config,body.cg50-mini .tools #capture{display:none!important}
 body.cg50-mini #cg50-expand-button{display:inline-flex;padding:7px 10px;font-size:13px}
 body.cg50-mini #cg50-mini-button{display:none}
 body.cg50-mini #cg50-settings-button{width:36px;height:36px}
@@ -149,7 +157,7 @@ body.cg50-mini #device{width:var(--cg50-device-width,280px)!important}
 <meta name="apple-mobile-web-app-title" content="CG50 Pro Max">
 
 <script src="./cg50-display.js"></script>
-<meta name="cg50-version" content="1.1.1">
+<meta name="cg50-version" content="1.2.6">
 <script src="./cg50-features.js"></script>
 </head>
 <body>
@@ -158,8 +166,6 @@ body.cg50-mini #device{width:var(--cg50-device-width,280px)!important}
 <div class="tools">
 <button id="cg50-reload-config" type="button">重载配置文件</button>
 <button id="capture">保存屏幕图片</button>
-<button data-state="save">保存进度 · F9</button>
-<button data-state="load">恢复进度 · F10</button>
 </div>
 </header>
 <main>
@@ -305,15 +311,22 @@ window.addEventListener('blur',releaseAll);
 document.addEventListener('visibilitychange',()=>{if(document.hidden)releaseAll();});
 window.addEventListener('pagehide',()=>navigator.sendBeacon('/hold?reset=1',''));
 async function stateAction(action){
- releaseAll();$$('[data-state]').forEach(b=>b.disabled=true);
+ const buttons=$$('[data-state]');
+ if(buttons.some(button=>button.disabled))return;
+ const status=$('#cg50-progress-status');
+ const report=message=>{
+  if($('#cg50-settings-dialog').open)status.textContent=message;
+  else toast(message);
+ };
+ status.textContent='';
+ releaseAll();buttons.forEach(button=>button.disabled=true);
  try{
   await chain;const r=await request('/'+action,12000);
   if(r!=='state saved'&&r!=='state reloaded')throw Error(r);
-  toast(action==='save'?'已保存计算器状态':'已恢复保存的计算器状态');
- }catch(e){toast('操作未完成：'+(e.name==='AbortError'?'等待超时':e.message));}
- finally{$$('[data-state]').forEach(b=>b.disabled=false);}
+  report(action==='save'?'已保存计算器状态':'已恢复保存的计算器状态');
+ }catch(e){report('操作未完成：'+(e.name==='AbortError'?'等待超时':e.message));}
+ finally{buttons.forEach(button=>button.disabled=false);}
 }
-$$('[data-state]').forEach(b=>b.onclick=()=>stateAction(b.dataset.state));
 function clearKeyHistory(){
  $('#history').replaceChildren();$('#lastkey').textContent='—';count=0;
 }
@@ -370,15 +383,25 @@ if(!window.CG50DirectFrames)frame();
       <option value="dark">深色</option>
     </select>
   </label>
-  <p>自动模式跟随系统；无法读取时，07:00–19:00 使用浅色。</p>
   <label class="cg50-setting cg50-toggle-setting" for="cg50-history-enabled">
     <span>最近按键</span>
     <input type="checkbox" role="switch" id="cg50-history-enabled">
   </label>
-  <div class="cg50-setting">
-    <button type="button" id="cg50-export-backup" disabled>导出备份</button>
-  </div>
-  <footer>设置立即生效，重启后保留。</footer>
+  <section class="cg50-settings-section" aria-labelledby="cg50-progress-heading">
+    <h3 id="cg50-progress-heading">进度与备份</h3>
+    <div class="cg50-settings-actions">
+      <button type="button" data-state="save">保存进度 · F9</button>
+      <button type="button" data-state="load">恢复进度 · F10</button>
+      <button type="button" id="cg50-export-backup" disabled>导出备份</button>
+    </div>
+    <p id="cg50-progress-status" role="status"></p>
+  </section>
+  <footer class="cg50-settings-section">
+    <p id="cg50-current-version"></p>
+    <div class="cg50-settings-actions" id="cg50-version-actions">
+      <button type="button" id="cg50-release-notes">查看更新说明</button>
+    </div>
+  </footer>
 </dialog>
 
 <script>
@@ -390,14 +413,12 @@ if(!window.CG50DirectFrames)frame();
     "保存屏幕图片":"Save screen image","保存进度 · F9":"Save progress · F9",
     "恢复进度 · F10":"Restore progress · F10",
     "最近按键":"Recent keys","清空按键记录":"Clear key history",
-    "导出备份":"Export backup",
+    "导出备份":"Export backup","进度与备份":"Progress and backup","查看更新说明":"Release notes",
     "画面已连接":"Screen connected","连接中":"Connecting…","连接中断":"Connection lost",
     "分数":"Fraction","设置":"Settings","关闭设置":"Close settings",
     "界面语言":"Interface language","外观模式":"Appearance",
     "自动（跟随系统）":"Automatic (follow system)","浅色":"Light","深色":"Dark",
-    "设置立即生效，重启后保留。":"Changes apply immediately and are remembered after restarting.",
     "仅切换软件界面；计算器菜单语言请在 CG50 内设置。":"Changes the app interface. Set the calculator menu language within the CG50.",
-    "自动模式跟随系统；无法读取时，07:00–19:00 使用浅色。":"Automatic follows system appearance. If unavailable, light mode is used from 07:00 to 19:00.",
     "已保存计算器状态":"Calculator state saved.","已保存当前计算器状态":"Calculator state saved.",
     "已恢复保存的计算器状态":"Saved calculator state restored.",
     "已保存进度":"Progress saved.","已恢复进度":"Progress restored.",
@@ -416,8 +437,8 @@ if(!window.CG50DirectFrames)frame();
     theme:['system','light','dark'].includes(raw.theme)?raw.theme:'system',
     showKeyHistory:raw.showKeyHistory===true
   };
-  const dialog=$('#cg50-settings-dialog'), restore=$('[data-state="load"]');
-  if (!dialog || !restore) return;
+  const dialog=$('#cg50-settings-dialog'), tools=$('header .tools');
+  if (!dialog || !tools) return;
   const wrap=document.createElement('span');
   wrap.className='cg50-settings-trigger';
   const gear=document.createElement('button');
@@ -433,7 +454,7 @@ if(!window.CG50DirectFrames)frame();
   gear.innerHTML='<svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M'+points.join(' L')+' Z M12 8.6 a3.4 3.4 0 1 0 0 6.8 a3.4 3.4 0 1 0 0 -6.8 Z"/></svg>';
   const tip=document.createElement('span');
   tip.id='cg50-settings-tooltip'; tip.textContent='设置'; tip.setAttribute('role','tooltip');
-  wrap.append(gear,tip); restore.insertAdjacentElement('afterend',wrap);
+  wrap.append(gear,tip); tools.append(wrap);
   function translate(s) {
     const map=prefs.language==='en'?dict:reverse;
     const key=s.trim();
@@ -503,7 +524,11 @@ if(!window.CG50DirectFrames)frame();
   $('#cg50-history-enabled').addEventListener('change',e=>{
     prefs.showKeyHistory=e.target.checked; apply(); persist();
   });
+  dialog.querySelectorAll('[data-state]').forEach(button=>{
+    button.addEventListener('click',()=>stateAction(button.dataset.state));
+  });
   gear.addEventListener('click',()=>{
+    $('#cg50-progress-status').textContent='';
     if(typeof releaseAll==='function') releaseAll();
     dialog.showModal();
   });
@@ -520,6 +545,10 @@ if(!window.CG50DirectFrames)frame();
     if(!dialog.open) return;
     consumed.add(e.code); e.stopImmediatePropagation();
     if(e.key==='Escape'){e.preventDefault();dialog.close();}
+    if(e.key==='F9'||e.key==='F10'){
+      e.preventDefault();
+      if(!e.repeat)stateAction(e.key==='F9'?'save':'load');
+    }
   },true);
   document.addEventListener('keyup',e=>{
     if(dialog.open||consumed.has(e.code)) e.stopImmediatePropagation();

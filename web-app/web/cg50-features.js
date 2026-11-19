@@ -1,4 +1,4 @@
-window.CG50Release={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-public-20261116", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
+window.CG50Release={"app": "CG50 Pro Max", "version": "1.2.6", "releaseId": "v1.2.6-public-20261119", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
 window.CG50ConnectionStatusManaged=true;
 
 (()=>{
@@ -80,14 +80,13 @@ function install(){
  document.head.append(css);
  const settings=document.getElementById("cg50-settings-dialog");
  if(settings){
-  const row=document.createElement("p");row.id="cg50-current-version";
-  const button=document.createElement("button");
-  button.type="button";button.id="cg50-release-notes";
+  const row=settings.querySelector("#cg50-current-version");
+  const button=settings.querySelector("#cg50-release-notes");
   const labels=()=>{
    row.textContent=text("版本：v","Version: v")+release.version;
    button.textContent=text("查看更新说明","Release notes");
   };
-  labels();settings.append(row,button);
+  labels();
   new MutationObserver(labels).observe(document.documentElement,{
    attributes:true,attributeFilter:["lang"]
   });

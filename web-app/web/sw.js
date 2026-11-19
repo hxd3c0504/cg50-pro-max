@@ -1,6 +1,6 @@
 
 "use strict";
-const RELEASE={"app": "CG50 Pro Max", "version": "1.2.5", "releaseId": "v1.2.5-public-20261116", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
+const RELEASE={"app": "CG50 Pro Max", "version": "1.2.6", "releaseId": "v1.2.6-public-20261119", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
 const FILES=["build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "reset-manifest.json"];
 const BASE=new URL("./",self.location.href).href;
 const CACHE="cg50-release-"+RELEASE.releaseId;
