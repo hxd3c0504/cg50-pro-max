@@ -50,6 +50,15 @@ header{padding:12px}main{grid-template-columns:1fr;padding:16px;gap:22px}
 <style id="cg50-settings-style">
 :root{--cg-bg:#eef2f6;--cg-panel:#fff;--cg-text:#1c2737;--cg-muted:#68778b;--cg-border:#d2dae4;--cg-soft:#f8faff;--cg-accent:#1764c5}
 html[data-cg50-theme="dark"]{--cg-bg:#111820;--cg-panel:#1d2732;--cg-text:#edf2f7;--cg-muted:#a8b5c6;--cg-border:#3c4a5b;--cg-soft:#253342;--cg-accent:#71b9ff}
+.cg50-download-dialog{background:var(--cg-panel);color:var(--cg-text)}
+.cg50-download-dialog::backdrop{background:rgb(10 18 30 / 45%)}
+.cg50-download-meter{margin:12px 0 4px}
+.cg50-download-meter progress{display:block;appearance:none;-webkit-appearance:none;width:100%;height:9px;overflow:hidden;border:0;border-radius:8px;background:var(--cg-border);color:var(--cg-accent)}
+.cg50-download-meter progress::-webkit-progress-bar{background:var(--cg-border)}
+.cg50-download-meter progress::-webkit-progress-value{background:var(--cg-accent)}
+.cg50-download-meter progress::-moz-progress-bar{background:var(--cg-accent)}
+.cg50-download-meter>div{display:flex;justify-content:space-between;margin-top:8px;color:var(--cg-text);font:500 14px/1.4 system-ui;font-variant-numeric:tabular-nums}
+.cg50-download-meter strong{color:var(--cg-accent)}
 body{background:var(--cg-bg);color:var(--cg-text)}
 header,.record{background:var(--cg-panel);border-color:var(--cg-border)}
 .tools button,#clear,#cg50-settings-dialog button,#cg50-settings-dialog select{background:var(--cg-panel);color:var(--cg-text);border:1px solid var(--cg-border)}
@@ -114,6 +123,7 @@ body.cg50-mini #cg50-settings-button{width:36px;height:36px}
 <!-- /CG50 MINI V1 HEAD -->
 <link rel="manifest" href="./manifest.webmanifest">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<script src="./cg50-download.js"></script>
 <script src="./ipad-adapter.js"></script>
 <style id="cg50-auto-import">#ipad-import{display:none!important}</style>
 
@@ -157,7 +167,7 @@ body.cg50-mini #device{width:var(--cg50-device-width,280px)!important}
 <meta name="apple-mobile-web-app-title" content="CG50 Pro Max">
 
 <script src="./cg50-display.js"></script>
-<meta name="cg50-version" content="1.3.2">
+<meta name="cg50-version" content="1.3.3">
 <script src="./cg50-features.js"></script>
 
 <style id="cg50-toolbar-style">

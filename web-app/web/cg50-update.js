@@ -28,6 +28,7 @@ let firstController=!navigator.serviceWorker?.controller,lastCheck=0;
 const registered=("serviceWorker" in navigator)
  ?navigator.serviceWorker.register("./sw.js",{updateViaCache:"none"}).catch(()=>null)
  :Promise.resolve(null);
+window.CG50WorkerRegistration=registered;
 function status(value){network=value;renderStatus();}
 function renderStatus(){
  const el=document.getElementById("connection");if(!el)return;

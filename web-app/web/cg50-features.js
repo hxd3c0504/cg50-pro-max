@@ -1,4 +1,4 @@
-window.CG50Release={"app": "CG50 Pro Max", "version": "1.3.2", "releaseId": "v1.3.2-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
+window.CG50Release={"app": "CG50 Pro Max", "version": "1.3.3", "releaseId": "v1.3.3-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
 window.CG50ConnectionStatusManaged=true;
 
 (()=>{

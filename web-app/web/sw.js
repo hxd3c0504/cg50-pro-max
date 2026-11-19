@@ -1,7 +1,8 @@
 
 "use strict";
-const RELEASE={"app": "CG50 Pro Max", "version": "1.3.2", "releaseId": "v1.3.2-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
-const FILES=["build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "tutorial.js", "tutorial.css", "guide-down-left-steep.png", "guide-down-left.png", "guide-down-right-steep.png", "guide-down-right.png", "guide-down.png", "guide-heart.png", "guide-idle.png", "guide-left-down.png", "guide-left-up.png", "guide-left.png", "guide-right-down.png", "guide-right-up.png", "guide-right.png", "guide-up-left-steep.png", "guide-up-left.png", "guide-up-right-steep.png", "guide-up-right.png", "guide-up.png", "reset-manifest.json"];
+const RELEASE={"app": "CG50 Pro Max", "version": "1.3.3", "releaseId": "v1.3.3-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
+const FILES=["cg50-download.js","build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "tutorial.js", "tutorial.css", "guide-down-left-steep.png", "guide-down-left.png", "guide-down-right-steep.png", "guide-down-right.png", "guide-down.png", "guide-heart.png", "guide-idle.png", "guide-left-down.png", "guide-left-up.png", "guide-left.png", "guide-right-down.png", "guide-right-up.png", "guide-right.png", "guide-up-left-steep.png", "guide-up-left.png", "guide-up-right-steep.png", "guide-up-right.png", "guide-up.png", "reset-manifest.json"];
+importScripts("./cg50-download.js");
 const BASE=new URL("./",self.location.href).href;
 const CACHE="cg50-release-"+RELEASE.releaseId;
 const META="cg50-program-pointer-v1";
@@ -65,7 +66,7 @@ async function exclusive(owner){
   fail("OTHER_WINDOWS");
 }
 const isTutorial=path=>path==='tutorial.js'||path==='tutorial.css'||path.startsWith('guide-');
-async function cacheVerified(cache,f,signal){
+async function cacheVerified(cache,f,signal,onBytes){
  const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),120000);
  const cancel=()=>abort.abort();
  signal?.addEventListener("abort",cancel,{once:true});
@@ -73,8 +74,7 @@ async function cacheVerified(cache,f,signal){
   const u=new URL(f.path,BASE);
   const r=await fetch(u,{cache:"no-store",signal:abort.signal});
   if(!r.ok)fail("NETWORK");
-  const bytes=await r.arrayBuffer();
-  if(bytes.byteLength!==f.size)fail("VERIFY");
+  const bytes=await cg50ReadDownload(r,f.size,onBytes);
   const hash=await crypto.subtle.digest("SHA-256",bytes);
   const hex=[...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("");
   if(hex!==f.sha256)fail("VERIFY");
@@ -132,13 +132,23 @@ async function buildFiles(name,progress,signal,coreOnly){
     !used.has("defaults/flash_full.bin")||!used.has("defaults/cg50_state.bin"))fail("MANIFEST");
  const cache=await caches.open(name);
  try{
-  let done=0;
-  for(const f of manifest.files){
-   if(coreOnly&&isTutorial(f.path))continue;
-   if(signal.aborted)fail("NETWORK");
-   await cacheVerified(cache,f,signal);
-   progress(++done,manifest.files.length);
+  const files=coreOnly?manifest.files.filter(f=>!isTutorial(f.path)):manifest.files;
+  const byteTotal=files.reduce((sum,f)=>sum+f.size,0);
+  let completed=0,lastReport=0,fileCount=0;
+  function report(bytes,force=false){
+   const now=Date.now();
+   if(!force&&now-lastReport<100)return;
+   lastReport=now;
+   progress(bytes,byteTotal,fileCount,files.length);
   }
+  report(0,true);
+  for(const f of files){
+   if(signal.aborted)fail("NETWORK");
+   await cacheVerified(cache,f,signal,received=>report(completed+received));
+   completed+=f.size;
+   fileCount++;
+  }
+  report(completed,true);
   const after=await latest(signal);
   if(after.releaseId!==RELEASE.releaseId)fail("VERSION_CHANGED");
   if(signal.aborted)fail("NETWORK");
@@ -151,7 +161,19 @@ async function buildFiles(name,progress,signal,coreOnly){
 }
 self.addEventListener("install",e=>{
  e.waitUntil((async()=>{
-  await build(CACHE,undefined,true);
+  const firstInstall=!self.registration.active;
+  const channel=firstInstall&&typeof BroadcastChannel!=="undefined"
+   ?new BroadcastChannel("cg50-core-"+RELEASE.releaseId):null;
+  try{
+   // Older browsers can receive service worker messages without BroadcastChannel.
+   const recipients=firstInstall&&!channel
+    ?await self.clients.matchAll({type:"window",includeUncontrolled:true}):[];
+   await build(CACHE,(done,total)=>{
+    const snapshot={type:"CG50_CORE_DOWNLOAD",releaseId:RELEASE.releaseId,done,total};
+    if(channel)channel.postMessage(snapshot);
+    else for(const client of recipients)client.postMessage(snapshot);
+   },true);
+  }finally{channel?.close();}
   if(!self.registration.active)await self.skipWaiting();
  })());
 });
@@ -197,8 +219,8 @@ self.addEventListener("message",e=>{
     for(const n of await caches.keys())
      if(n.startsWith(CACHE+"-factory-")&&n!==current)await caches.delete(n);
     const token=crypto.randomUUID(),name=CACHE+"-factory-"+token;
-    const c=await build(name,(done,total)=>{
-     try{port?.postMessage({progress:{done,total}});}catch(_){}
+    const c=await build(name,(bytes,totalBytes,done,total)=>{
+     try{port?.postMessage({progress:{bytes,totalBytes,done,total}});}catch(_){}
     });
     const job={cache:name,token,owner:e.source.id,at:Date.now(),releaseId:RELEASE.releaseId};
     await c.put(JOB,Response.json(job));

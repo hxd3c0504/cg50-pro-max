@@ -141,11 +141,14 @@ async function reset(){
   document.getElementById("cg50-settings-dialog")?.close();
   if(typeof releaseAll==="function")releaseAll();
   dialog=document.createElement("dialog");
+  dialog.className="cg50-download-dialog";
   dialog.style.cssText="max-width:420px;width:calc(100% - 48px);box-sizing:border-box;padding:24px;border:1px solid #879bb3;border-radius:14px;font:16px system-ui";
   const title=document.createElement("h2"),hint=document.createElement("p");
   title.textContent=text("恢复初始状态","Restore initial state");
   hint.textContent=text("正在准备重新下载，请保持页面打开…","Preparing the download. Keep this page open…");
+  hint.id="cg50-reset-status";
   dialog.append(title,hint);document.body.append(dialog);
+  const meter=cg50DownloadMeter(hint);
   dialog.addEventListener("cancel",e=>e.preventDefault());dialog.showModal();
   const version=await latest();
   const reg=await navigator.serviceWorker.getRegistration(BASE);
@@ -153,8 +156,13 @@ async function reset(){
   await reg.update();
   worker=await target(reg,version.releaseId);
   job=await rpc(worker,{type:"STAGE_FACTORY",expected:version.releaseId},240000,p=>{
-   hint.textContent=text("正在重新下载并核验程序文件：","Downloading and verifying app files: ")+p.done+" / "+p.total;
+   if(p.totalBytes){
+    hint.textContent=text("正在下载并核验程序文件…","Downloading and verifying app files…");
+    meter.update(p.bytes,p.totalBytes);
+   }
   });
+  meter.hide();
+  hint.textContent=text("正在恢复初始状态…","Restoring initial state…");
   const cache=await caches.open(job.cache);
   const flashResponse=await cache.match(new URL("defaults/flash_full.bin",BASE));
   const stateResponse=await cache.match(new URL("defaults/cg50_state.bin",BASE));

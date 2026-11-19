@@ -8,7 +8,7 @@ try {
     window.CG50NativeCompact=localStorage.getItem("cg50-mini")==="true";
 } catch (_) {}
 const networkFetch=window.fetch.bind(window);
-const worker=new Worker("./worker.js");
+let worker;
 const pending=new Map();
 let seq=0, active=false, fault="", frameReady=false, saveBusy=false;
 const canvas=document.createElement("canvas");
@@ -38,7 +38,7 @@ let factoryResetting=false;
 window.CG50PrepareFactoryReset=async()=>{
   factoryResetting=true;
   active=false;saveBusy=true;
-  worker.terminate();
+  worker?.terminate();
   for(const p of pending.values()){
     clearTimeout(p.timer);
     p.reject(Error("正在恢复初始状态"));
@@ -111,6 +111,9 @@ function markCoreFault(error){
     notify("Emulator stopped: "+fault);
   }
 }
+function startWorker(){
+ if(worker)return;
+ worker=new Worker("./worker.js");
 worker.onmessage=({data:m})=>{
   if(m.type==="input-speed"){
     try { localStorage.setItem("cg50-input-ips-v1",String(m.value)); } catch(_){}
@@ -142,6 +145,8 @@ worker.onerror=e=>{
 worker.onmessageerror=()=>{
   markCoreFault("Worker message could not be decoded");
 };
+
+}
 
 const dbReady=new Promise((resolve,reject)=>{
   const r=indexedDB.open("cg50-ipad-v1",1);
@@ -175,6 +180,7 @@ if(factoryResetting)throw Error("正在恢复初始状态");
 async function boot(flash,state){
   if(!sessionOwned)throw Error("当前窗口没有计算器运行权限");
   try {
+    startWorker();
     await rpc("boot",{flash,state});
   } catch(error) {
     markCoreFault(error);
@@ -383,8 +389,68 @@ function acquireSession(){
  return sessionLockPending;
 }
 
+// Wait only on a fresh installation. Existing saves can start immediately.
+async function firstDownload(meter){
+ const zh=!document.documentElement.lang.startsWith("en");
+ const downloading=zh?"正在下载计算器…":"Downloading calculator…";
+ notify(downloading);
+ const channel=typeof BroadcastChannel!=="undefined"
+   ?new BroadcastChannel("cg50-core-"+window.CG50Release.releaseId):null;
+ const onProgress=({data})=>{
+  if(data?.type==="CG50_CORE_DOWNLOAD"&&data.releaseId===window.CG50Release.releaseId)
+   meter.update(data.done,data.total);
+ };
+ if(channel)channel.onmessage=onProgress;
+ else navigator.serviceWorker?.addEventListener("message",onProgress);
+ let installed=false;
+ try{
+  const reg=await window.CG50WorkerRegistration;
+  const installing=reg?.installing||reg?.waiting;
+  if(reg&&!reg.active&&installing){
+   await new Promise((resolve,reject)=>{
+    function changed(){
+     if(installing.state!=="activated"&&installing.state!=="redundant")return;
+     installing.removeEventListener("statechange",changed);
+     if(installing.state==="activated")resolve();else reject(Error(zh?"下载未完成，请重试":"Download incomplete. Please retry."));
+    }
+    installing.addEventListener("statechange",changed);
+    changed();
+   });
+   installed=true;
+  }
+ }finally{
+  channel?.close();
+  navigator.serviceWorker?.removeEventListener("message",onProgress);
+ }
+ const names=["defaults/flash_full.bin","defaults/cg50_state.bin"];
+ const controller=new AbortController();
+ const timer=setTimeout(()=>controller.abort(),120000);
+ try{
+  // Without an installing worker, count only the files fetched by this page.
+  let entries;
+  if(!installed&&!navigator.serviceWorker?.controller){
+   const response=await networkFetch("./reset-manifest.json",{signal:controller.signal});
+   if(response.ok)entries=(await response.json()).files;
+  }
+  const sizes=names.map(name=>entries?.find(f=>f.path===name)?.size);
+  const total=sizes[0]+sizes[1], received=[0,0];
+  if(Number.isFinite(total))meter.update(0,total);
+  let previous=0;
+  return await Promise.all(names.map(async(name,i)=>{
+   const r=await networkFetch("./"+name,{signal:controller.signal});
+   if(!r.ok)throw Error("Download failed: "+name);
+   if(!Number.isFinite(total))return r.arrayBuffer();
+   return cg50ReadDownload(r,sizes[i],value=>{
+    received[i]=value;
+    const done=received[0]+received[1],now=Date.now();
+    if(now-previous>=100||done===total){meter.update(done,total);previous=now;}
+   });
+  }));
+ }finally{clearTimeout(timer);controller.abort();}
+}
 async function launch(){
   const dialog=document.createElement("dialog");
+  dialog.className="cg50-download-dialog";
   dialog.style.cssText="max-width:420px;width:calc(100% - 64px);"+
     "border:1px solid #879bb3;border-radius:16px;padding:24px;"+
     "font:16px system-ui";
@@ -398,6 +464,7 @@ async function launch(){
       <button id="ipad-start">Import and start</button>
     </div>`;
   document.body.append(dialog);
+  const meter=cg50DownloadMeter(dialog.querySelector("#ipad-status"));
   dialog.addEventListener("cancel",e=>e.preventDefault());
   dialog.addEventListener("keydown",e=>e.stopPropagation());
   dialog.addEventListener("keyup",e=>e.stopPropagation());
@@ -408,21 +475,9 @@ async function launch(){
     await acquireSession();
     let [flash,state]=await Promise.all([read("flash"),read("state")]);
     if(!flash && !state){
-      notify("首次准备，请稍候… / Preparing first launch…");
-      async function download(name){
-        const controller=new AbortController();
-        const timer=setTimeout(()=>controller.abort(),120000);
-        try{
-          const response=await networkFetch("./defaults/"+name,{
-            signal:controller.signal
-          });
-          if(!response.ok)throw Error("Download failed: "+name);
-          return await response.arrayBuffer();
-        }finally{clearTimeout(timer);}
-      }
-      [flash,state]=await Promise.all([
-        download("flash_full.bin"),download("cg50_state.bin")
-      ]);
+      [flash,state]=await firstDownload(meter);
+      meter.hide();
+      notify(document.documentElement.lang.startsWith("en")?"Starting calculator…":"正在启动计算器…");
       if(flash.byteLength!==33554432 || !state.byteLength)
         throw Error("Initial data is incomplete");
       await write({flash,state});
@@ -437,6 +492,7 @@ async function launch(){
       notify("First-time setup");
     }
   }catch(e){
+    meter.hide();
     notify("启动失败 / Startup failed: "+e.message);
         const retry=document.createElement("button");
         retry.textContent="重试 / Retry";
