@@ -1,5 +1,5 @@
 #device .lesson-target{z-index:4;border:3px solid #fff582;background:#fbe34d30;box-shadow:0 0 0 2px #125eaa,0 0 14px #fff582}
-.screen-frame{position:relative}.lesson-slot{position:absolute;z-index:3;pointer-events:none;border:2px solid #fff582;box-shadow:0 0 0 2px #125eaa;border-radius:3px}.lesson-slot[hidden]{display:none}
+.screen-frame{position:relative}.lesson-slot{position:absolute;z-index:3;box-sizing:border-box;pointer-events:none;border:2px solid #fff582;box-shadow:0 0 0 2px #125eaa;border-radius:3px}.lesson-slot[hidden]{display:none}
 
 #lesson-coach{--lesson-fit-width:min(var(--lesson-avatar-width),70vw,calc((100dvh - 104px) * 0.6875));position:fixed;z-index:12;width:var(--lesson-fit-width);pointer-events:none;user-select:none}
 #lesson-coach[hidden]{display:none}
@@ -31,4 +31,49 @@
 #lesson-coach.playing-heart .lesson-heart{
  display:block;position:absolute;top:0;left:var(--heart-left);height:100%;width:auto;
  pointer-events:auto;touch-action:none;
+}
+
+#lesson-directory{width:min(560px,calc(100vw - 12px));padding:14px;overscroll-behavior:contain}
+#lesson-directory strong{font-size:18px}
+#lesson-directory .lesson-shared{background:var(--cg-soft,#f3f6fa);border:1px solid var(--cg-border,#c9d4e1);font-size:16px;font-weight:650;padding:8px 12px}
+.lesson-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:14px}
+#lesson-directory h2{font:700 22px/1.25 -apple-system,BlinkMacSystemFont,sans-serif;text-align:center;color:white;background:#1559c5;padding:9px 4px;border-radius:7px;margin:0 0 6px}
+#lesson-directory summary{display:flex;align-items:center;gap:7px;cursor:pointer;list-style:none;padding:9px 6px;border-radius:5px;font-size:15px}
+#lesson-directory summary::-webkit-details-marker{display:none}
+#lesson-directory summary::after{content:'›';margin-left:auto}
+#lesson-directory summary small{white-space:nowrap;font-weight:600;color:var(--cg-muted,#56677a)}
+#lesson-directory details[open]{background:color-mix(in srgb,#1559c5 6%,var(--cg-panel,#fff));border-radius:6px;box-shadow:inset 3px 0 #789ed8}
+#lesson-directory details[open]>summary{background:color-mix(in srgb,#1559c5 13%,var(--cg-panel,#fff));font-weight:650}
+#lesson-directory details[open]>summary::after{transform:rotate(90deg)}
+#lesson-directory details div{padding:3px 4px 5px 11px}
+#lesson-directory details button{font-size:14px}
+#lesson-directory button:focus-visible,#lesson-directory summary:focus-visible,#lesson-coach footer button:focus-visible{outline:2px solid #4785e7;outline-offset:-2px}
+#lesson-coach footer{display:flex;gap:6px;flex-wrap:wrap}
+#lesson-coach footer button{pointer-events:auto;font-weight:600;line-height:1.3;font-family:inherit;font-size:13px;color:#563d1e;background:#fffaf1;border:1px solid #cbbb9e;border-radius:6px;padding:5px 8px;margin-top:5px;cursor:pointer}
+#lesson-coach footer button[hidden]{display:none}
+#lesson-coach footer button:nth-child(3){background:#1559c5;color:#fff;border-color:#1559c5}
+#lesson-coach>div{max-height:calc(100dvh - 76px);overflow-y:auto}
+@media(max-width:550px){
+ #lesson-directory{padding:10px}
+ .lesson-columns{gap:7px}
+ #lesson-directory h2{font-size:18px}
+ #lesson-directory summary{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1px;padding:6px}
+ #lesson-directory summary small{grid-column:1/-1}
+ #lesson-directory button,#lesson-directory summary{overflow-wrap:anywhere}
+ #lesson-directory details div{padding-left:5px}
+ #lesson-coach>div{max-width:min(25rem,calc(100vw - 12px));font-size:14px}
+}
+
+.lesson-key-cue:not([hidden]){display:block;font-size:12px;color:#725931;margin-top:4px}
+
+header .tools .lesson-invite{
+ border-color:var(--cg-accent);
+ animation:lesson-invite-glow 1.8s ease-in-out infinite;
+}
+@keyframes lesson-invite-glow{
+ 0%,100%{box-shadow:0 0 0 2px color-mix(in srgb,var(--cg-accent) 34%,transparent)}
+ 50%{box-shadow:0 0 0 5px color-mix(in srgb,var(--cg-accent) 52%,transparent),0 0 12px color-mix(in srgb,var(--cg-accent) 30%,transparent)}
+}
+@media(prefers-reduced-motion:reduce){
+ header .tools .lesson-invite{animation:none;box-shadow:0 0 0 3px var(--cg-accent)}
 }

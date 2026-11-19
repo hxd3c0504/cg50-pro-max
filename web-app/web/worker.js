@@ -132,6 +132,26 @@ function loop(){
   schedule(coreBusy||cycleBudget>=1?0:4);
  }catch(error){fail(error);}
 }
+// The tutorial advances its pointer on acknowledgement. A queued OS tap is held
+// for three keyboard scans, followed by a three-scan release interval.
+async function settlePracticeTap(before){
+ let previous=before,scans=0,idleSamples=0;
+ const deadline=performance.now()+12000;
+ while(running&&!lastError&&performance.now()<deadline){
+  await sleep(16);
+  const now=check(cg50Stats());
+  const cycles=now.cycles-previous.cycles;
+  if(cycles>0){
+   scans+=cycles*33/inputSpeed;
+   const idleRatio=1-(now.executed-previous.executed)/cycles;
+   idleSamples=scans>=7&&idleRatio>0.25?idleSamples+1:0;
+   if(idleSamples>=2)return;
+  }
+  previous=now;
+ }
+ if(lastError||scans<7)throw Error(lastError||'Practice keypad did not settle');
+}
+
 function requireRunning(){
  if(lastError)throw Error(lastError);
  if(!running)throw Error("Calculator is not running");
@@ -168,7 +188,13 @@ onmessage=({data:m})=>{
    result={running,paused,error:lastError||null};
   }else{
    requireRunning();
-   if(m.action==="key"||m.action==="hold"){
+   if(m.action==="practiceKey"){
+    const before=check(cg50Stats());
+    if(!cg50Tap(m.key))throw Error("Unknown key: "+m.key);
+    requestFrame();schedule();
+    await settlePracticeTap(before);
+    frame(true);
+   }else if(m.action==="key"||m.action==="hold"){
     if(paused||(Number.isSafeInteger(m.epoch)&&m.epoch!==inputEpoch))
      throw Error("Input belongs to an inactive page");
     if(m.action==="key"){

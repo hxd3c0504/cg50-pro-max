@@ -179,18 +179,18 @@
     },
     {
       "path": "sw.js",
-      "size": 13454,
-      "sha256": "eda39d503e9201912568fc6e4d698b8a4a639efe1b3b493e3d3ebbf057594c55"
+      "size": 13476,
+      "sha256": "845fc9723bb910ecd3311d88edc9c14a6ddfb5dbe12c5887251fcc6dbccf44eb"
     },
     {
       "path": "tutorial.css",
-      "size": 2903,
-      "sha256": "b40bbca95b1943c8960792f2e308850c4899c8a6c18873faab9db9f00d9aca26"
+      "size": 6063,
+      "sha256": "e3a1dba58d973a69f6ecdf9b09ccfec85f7b74d1a83d5946dc891b59871a7f7c"
     },
     {
       "path": "tutorial.js",
-      "size": 24537,
-      "sha256": "af6a4a35df414abc1b7415a820276ef359fd13aa9b7d6b1a2101c34e14d009bf"
+      "size": 100000,
+      "sha256": "4a4cfb86ee4581a29d68f53004a49ca828302f57be5a5b7f5ea62c50da77db11"
     },
     {
       "path": "version.json",
@@ -204,8 +204,8 @@
     },
     {
       "path": "worker.js",
-      "size": 7407,
-      "sha256": "752e6db1480bd2c024fe6f8d9d7de1c135dea66ffbee0a6d249b27a560356fa4"
+      "size": 8361,
+      "sha256": "2cc65ef562d8a536e98900183eaa92cabf2fd01b932b141822ca563851febd94"
     }
   ]
 }

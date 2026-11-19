@@ -4,7 +4,7 @@ const RELEASE={"app": "CG50 Pro Max", "version": "1.3.3", "releaseId": "v1.3.3-p
 const FILES=["cg50-download.js","build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "tutorial.js", "tutorial.css", "guide-down-left-steep.png", "guide-down-left.png", "guide-down-right-steep.png", "guide-down-right.png", "guide-down.png", "guide-heart.png", "guide-idle.png", "guide-left-down.png", "guide-left-up.png", "guide-left.png", "guide-right-down.png", "guide-right-up.png", "guide-right.png", "guide-up-left-steep.png", "guide-up-left.png", "guide-up-right-steep.png", "guide-up-right.png", "guide-up.png", "reset-manifest.json"];
 importScripts("./cg50-download.js");
 const BASE=new URL("./",self.location.href).href;
-const CACHE="cg50-release-"+RELEASE.releaseId;
+const CACHE="cg50-release-"+RELEASE.releaseId+"-lessons-927b3094df";
 const META="cg50-program-pointer-v1";
 const POINTER=new URL("__cg50_program_pointer",BASE).href;
 const JOB=new URL("__cg50_factory_job",BASE).href;
