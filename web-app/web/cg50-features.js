@@ -1,4 +1,4 @@
-window.CG50Release={"app": "CG50 Pro Max", "version": "1.2.6", "releaseId": "v1.2.6-public-20261119", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
+window.CG50Release={"app": "CG50 Pro Max", "version": "1.3.2", "releaseId": "v1.3.2-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
 window.CG50ConnectionStatusManaged=true;
 
 (()=>{
@@ -94,6 +94,45 @@ function install(){
  }
  startup();
 }
+// Start the lesson UI and offline download only after the calculator can accept input.
+function prepareTutorial(){
+ let css,script;
+ function load(tag,url){
+  return new Promise((resolve,reject)=>{
+   const el=document.createElement(tag);
+   el.onload=resolve;
+   el.onerror=()=>{el.remove();reject(Error(url));};
+   if(tag==="link"){el.rel="stylesheet";el.href=url;}else el.src=url;
+   document.head.append(el);
+  });
+ }
+ let retry,loading=false,finished=false;
+ async function start(){
+  if(loading||finished)return;
+  clearTimeout(retry);loading=true;
+  try{
+   await (css??=load("link","./tutorial.css").catch(e=>{css=null;throw e;}));
+   await (script??=load("script","./tutorial.js").catch(e=>{script=null;throw e;}));
+   if(welcomePending){welcomePending=false;window.CG50TutorialWelcome?.();}
+   if("serviceWorker" in navigator){
+    const reg=await navigator.serviceWorker.ready;
+    const reply=await new Promise((resolve,reject)=>{
+     const ch=new MessageChannel();
+     const timer=setTimeout(()=>{ch.port1.close();reject(Error("TIMEOUT"));},180000);
+     ch.port1.onmessage=e=>{clearTimeout(timer);ch.port1.close();resolve(e.data);};
+     reg.active.postMessage({type:"CACHE_TUTORIAL",releaseId:release.releaseId},[ch.port2]);
+    });
+    if(!reply.ok)throw Error(reply.error);
+   }
+   finished=true;
+   window.removeEventListener("online",start);
+  }catch{retry=setTimeout(start,60000);}
+  finally{loading=false;}
+ }
+ window.addEventListener("online",start);
+ start();
+}
+let welcomePending=false;
 async function startup(){
  let pending=null;
  try{pending=JSON.parse(sessionStorage.getItem("cg50.reload-result.v1")||"null");}catch(_){}
@@ -114,6 +153,7 @@ async function startup(){
    });
    await Promise.race([ready,fault,timeout]);
   }else await Promise.race([ready,fault]);
+  prepareTutorial();
   if(pending)sessionStorage.removeItem("cg50.reload-result.v1");
   if(pending?.kind==="manual"){
    if(pending.expected&&pending.expected!==release.releaseId)
@@ -121,7 +161,8 @@ async function startup(){
    const extra=text("配置文件已重载，当前版本 v","Configuration reloaded. Current version v")+release.version+
     (pending.offline?text("（使用离线缓存）"," (using offline cache)"):"");
    await window.CG50ShowRelease(false,extra);
-  }else await window.CG50ShowRelease();
+  }
+  if(window.CG50TutorialWelcome)window.CG50TutorialWelcome();else welcomePending=true;
  }catch(error){
   if(pending){
    sessionStorage.removeItem("cg50.reload-result.v1");

@@ -19,10 +19,10 @@ header strong{font-size:20px}
 #connection.online{color:#16704b}
 main{max-width:1500px;margin:auto;display:grid;grid-template-columns:auto minmax(0,1fr);gap:32px;padding:24px;align-items:start}
 .device-column{display:flex;justify-content:center}
-#device{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:655/1375;width:clamp(260px,calc((100dvh - 120px)*.476),360px);border-radius:24px;box-shadow:0 14px 38px #22334825}
-.photo{position:absolute;width:165.802%;max-width:none;left:-29.008%;top:-2.182%;pointer-events:none;user-select:none}
+#device{position:relative;overflow:hidden;isolation:isolate;aspect-ratio:726/1448;width:clamp(260px,calc((100dvh - 120px)*.5014),360px)}
+.photo{position:absolute;width:calc(100% * 1086 / 726);max-width:none;left:calc(-100% * 180 / 726);top:0;pointer-events:none;user-select:none}
 .lcd{display:block;image-rendering:pixelated;background:#070b0a}
-#device .lcd{position:absolute;left:9.924%;top:12.582%;width:79.542%;height:20.436%;object-fit:contain}
+#device .lcd{position:absolute;left:9.5041%;top:12.5691%;width:81.2672%;height:20.9254%;object-fit:contain}
 .hotspot{position:absolute;margin:0;padding:0;border:2px solid transparent;background:transparent;border-radius:8px;touch-action:none;-webkit-tap-highlight-color:transparent}
 .hotspot.round{border-radius:50%}
 .hotspot:hover,.hotspot:focus-visible{border-color:#38bdf8;background:#38bdf820;outline:none}
@@ -101,7 +101,7 @@ html[data-cg50-theme="dark"] .cg50-mode-button:is(:hover,:active,:focus-visible)
 #cg50-expand-button{display:none}
 body.cg50-mini .presentation,body.cg50-mini .record{display:none!important}
 body.cg50-mini main{display:block!important;max-width:none;padding:10px!important;margin:0 auto!important}
-body.cg50-mini #device{width:min(100%,calc((100vh - var(--cg50-mini-header,64px) - 24px)*var(--cg50-device-ratio,0.47)))!important;min-width:0!important;max-width:none!important;margin:0 auto}
+body.cg50-mini #device{width:min(100%,calc((100vh - var(--cg50-mini-header,64px) - 24px)*var(--cg50-device-ratio,0.5014)))!important;min-width:0!important;max-width:none!important;margin:0 auto}
 body.cg50-mini header{padding:8px 10px!important;gap:6px;flex-wrap:wrap;align-items:center;justify-content:space-between}
 body.cg50-mini header .brand,body.cg50-mini header h1,body.cg50-mini header strong{font-size:14px}
 body.cg50-mini #connection{display:none}
@@ -157,15 +157,43 @@ body.cg50-mini #device{width:var(--cg50-device-width,280px)!important}
 <meta name="apple-mobile-web-app-title" content="CG50 Pro Max">
 
 <script src="./cg50-display.js"></script>
-<meta name="cg50-version" content="1.2.6">
+<meta name="cg50-version" content="1.3.2">
 <script src="./cg50-features.js"></script>
+
+<style id="cg50-toolbar-style">
+header .tools{display:flex;gap:8px;max-width:100%}
+header .tools>button,header .tools #cg50-settings-button{align-items:center;justify-content:center;gap:7px;min-height:40px;padding:8px 12px;border:1px solid var(--cg-border);border-radius:9px;background:var(--cg-panel);color:var(--cg-text);font-size:14px;font-weight:550;line-height:1.2;white-space:nowrap}
+header .tools>button:not(#cg50-expand-button){display:inline-flex}
+header .tools #cg50-settings-button{width:40px;height:40px;padding:8px;color:var(--cg-muted)}
+header .tools #cg50-settings-button svg{width:18px;height:18px}
+header .tools>button::before{content:"";width:18px;height:18px;flex:none;background:currentColor;-webkit-mask:var(--tool-icon) center/contain no-repeat;mask:var(--tool-icon) center/contain no-repeat}
+header .tools button:hover:where(:enabled){background:var(--cg-soft);border-color:var(--cg-muted)}
+header .tools button:focus-visible{outline:2px solid var(--cg-accent);outline-offset:1px}
+header .tools [aria-controls="lesson-directory"]:is([aria-expanded="true"],[aria-pressed="true"]){background:var(--cg-accent);border-color:var(--cg-accent);color:var(--cg-panel)}
+body.cg50-mini header .tools #cg50-mini-button{display:none}
+@media(max-width:600px){
+ body:not(.cg50-mini) header .tools{width:100%;flex-wrap:nowrap;gap:4px}
+ body:not(.cg50-mini) header .tools>button{flex:1 1 auto;flex-direction:column;gap:3px;min-height:44px;padding:4px 2px;font-size:11px}
+ body:not(.cg50-mini) header .tools #cg50-settings-button{min-height:44px}
+}
+@media(max-width:360px){
+ body:not(.cg50-mini) header .tools>button{flex:1 1 0;min-width:0;min-height:54px;white-space:normal}
+}
+.tools #cg50-mini-button{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Crect x=%223%22 y=%224%22 width=%2218%22 height=%2216%22 rx=%223%22/%3E%3Crect x=%2211%22 y=%2211%22 width=%227%22 height=%226%22 rx=%221%22 fill=%22black%22 stroke=%22none%22/%3E%3C/svg%3E")}
+.tools #cg50-expand-button{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M14 4h6v6m0-6-7 7M10 20H4v-6m0 6 7-7%22/%3E%3C/svg%3E")}
+.tools [aria-controls="lesson-directory"]{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M12 6.2C9 4.1 5.6 4 2.8 5v13c3-1.1 6.3-.8 9.2 1.2 2.9-2 6.2-2.3 9.2-1.2V5c-2.8-1-6.2-.9-9.2 1.2Zm0 0v13%22/%3E%3C/svg%3E")}
+.tools [aria-controls="lesson-directory"][aria-pressed="true"]{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M10 4H5a1.5 1.5 0 0 0-1.5 1.5v13A1.5 1.5 0 0 0 5 20h5m5-13 5 5-5 5m5-5H8%22/%3E%3C/svg%3E")}
+.tools #cg50-reload-config{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M19.6 10a7.9 7.9 0 1 0-.6 6M20 4.6v5.8h-5.8%22/%3E%3C/svg%3E")}
+.tools #capture{--tool-icon:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22black%22 stroke-width=%221.8%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22%3E%3Cpath d=%22M4.5 7.5H8l1.6-2.6h4.8L16 7.5h3.5a1.7 1.7 0 0 1 1.7 1.7v9a1.7 1.7 0 0 1-1.7 1.7h-15a1.7 1.7 0 0 1-1.7-1.7v-9a1.7 1.7 0 0 1 1.7-1.7Z%22/%3E%3Ccircle cx=%2212%22 cy=%2213.5%22 r=%223.3%22/%3E%3C/svg%3E")}
+</style>
+
 </head>
 <body>
 <header>
 <div><strong>CG50 Pro Max</strong><span id="connection">连接中</span></div>
 <div class="tools">
-<button id="cg50-reload-config" type="button">重载配置文件</button>
-<button id="capture">保存屏幕图片</button>
+<button id="cg50-reload-config" type="button" title="重载配置文件">重载配置</button>
+<button id="capture" title="保存屏幕图片">保存截图</button>
 </div>
 </header>
 <main>
@@ -206,18 +234,20 @@ function hotspot(d,x,y,w,h,round=false){
  b.type='button';b.className='hotspot'+(round?' round':'');
  b.dataset.key=id;b.title=label;b.setAttribute('aria-label',label);
  Object.assign(b.style,{
- left:((x-w/2-190)/655*100)+'%',top:((y-h/2-30)/1375*100)+'%',
- width:(w/655*100)+'%',height:(h/1375*100)+'%'});
+ left:((x-w/2-180)/726*100)+'%',top:((y-h/2)/1448*100)+'%',
+ width:(w/726*100)+'%',height:(h/1448*100)+'%'});
  $('#device').append(b);
 }
-const cols=[282,375,467,562,657,748],nums=[288,400,513,627,740];
-defs.slice(0,6).forEach((d,i)=>hotspot(d,cols[i],573,58,58,true));
-defs.slice(6,14).forEach((d,i)=>hotspot(d,cols[i%4],i<4?660:737,86,48));
-defs.slice(14,26).forEach((d,i)=>hotspot(d,cols[i%6],i<6?830:904,86,48));
-defs.slice(26).forEach((d,i)=>hotspot(d,nums[i%5],[1011,1105,1200,1297][Math.floor(i/5)],102,72));
-[['ArrowUp','↑',707,642],['ArrowLeft','←',653,695],
- ['ArrowRight','→',762,695],['ArrowDown','↓',707,748]]
-.forEach(d=>hotspot(d,d[2],d[3],51,51,true));
+// Coordinates are measured in the 1086 × 1448 front photo.
+const cols=[293,395,496,597,697,797],nums=[302,423,544,665,787];
+const functionCols=[282,389,492,595,699,801];
+defs.slice(0,6).forEach((d,i)=>hotspot(d,functionCols[i],580,58,58,true));
+defs.slice(6,14).forEach((d,i)=>hotspot(d,cols[i%4],i<4?671:748,94,48));
+defs.slice(14,26).forEach((d,i)=>hotspot(d,cols[i%6],i<6?842:918,94,48));
+defs.slice(26).forEach((d,i)=>hotspot(d,nums[i%5],[1020,1117,1212,1313][Math.floor(i/5)],110,70));
+[['ArrowUp','↑',750,652],['ArrowLeft','←',696,708],
+ ['ArrowRight','→',810,708],['ArrowDown','↓',751,761]]
+.forEach(d=>hotspot(d,d[2],d[3],55,54,true));
 
 let chain=Promise.resolve(),sequence=0,frameURL='',toastTimer,count=0;
 const session='ui'+Math.random().toString(36).slice(2);
@@ -254,11 +284,13 @@ function record(id){
  $('#history').scrollLeft=$('#history').scrollWidth;
 }
 function tap(id){
+ if(window.CG50LessonKey?.(id))return;
  record(id);shine(id,true);
  enqueue('/key?k='+encodeURIComponent(id)).catch(()=>{});
  setTimeout(()=>shine(id,false),140);
 }
 function hold(id,source){
+ if(window.CG50LessonKey?.(id))return;
  if(held.has(source))return;
  const token=session+'-'+(++sequence);
  held.set(source,{id,token});record(id);shine(id,true);
@@ -332,15 +364,25 @@ function clearKeyHistory(){
 }
 $('#clear').onclick=clearKeyHistory;
 $('#capture').onclick=()=>{
- const img=$('.lcd');if(!img.naturalWidth)return;
- const c=document.createElement('canvas');c.width=384;c.height=216;
- c.getContext('2d').drawImage(img,0,0);
- c.toBlob(blob=>{
+ const frame=$('.screen-frame');
+ const lcd=frame.querySelector('canvas')||frame.querySelector('img.lcd');
+ const width=lcd instanceof HTMLCanvasElement?lcd.width:lcd.naturalWidth;
+ const height=lcd instanceof HTMLCanvasElement?lcd.height:lcd.naturalHeight;
+ if(width<=1||height<=1)return;
+ const bounds=lcd.getBoundingClientRect(),dpr=window.devicePixelRatio||1;
+ // Whole-pixel enlargement preserves the original LCD grid on high-density displays.
+ const scale=Math.max(4,Math.ceil(Math.min(bounds.width/width,bounds.height/height)*dpr));
+ const image=document.createElement('canvas');
+ image.width=width*scale;image.height=height*scale;
+ const context=image.getContext('2d');
+ context.imageSmoothingEnabled=false;
+ context.drawImage(lcd,0,0,image.width,image.height);
+ image.toBlob(blob=>{
   if(!blob)return;
-  const u=URL.createObjectURL(blob),a=document.createElement('a');
-  a.href=u;a.download='CG50-'+Date.now()+'.png';a.click();
-  setTimeout(()=>URL.revokeObjectURL(u),1000);
- });
+  const url=URL.createObjectURL(blob),link=document.createElement('a');
+  link.href=url;link.download=(window.CG50DirectFrames?'CG50-Pro-Max-':'CG50-')+Date.now()+'.png';
+  link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
+ },'image/png');
 };
 async function frame(){
  const c=new AbortController(),t=setTimeout(()=>c.abort(),6000);
@@ -410,7 +452,7 @@ if(!window.CG50DirectFrames)frame();
   const $ = s => document.querySelector(s);
   const dict = {
     "全屏投屏":"Fullscreen","退出全屏":"Exit fullscreen",
-    "保存屏幕图片":"Save screen image","保存进度 · F9":"Save progress · F9",
+    "保存截图":"Save image","保存屏幕图片":"Save screen image","保存进度 · F9":"Save progress · F9",
     "恢复进度 · F10":"Restore progress · F10",
     "最近按键":"Recent keys","清空按键记录":"Clear key history",
     "导出备份":"Export backup","进度与备份":"Progress and backup","查看更新说明":"Release notes",
@@ -435,7 +477,7 @@ if(!window.CG50DirectFrames)frame();
   let prefs={
     language:['en','zh'].includes(raw.language)?raw.language:'zh',
     theme:['system','light','dark'].includes(raw.theme)?raw.theme:'system',
-    showKeyHistory:raw.showKeyHistory===true
+    showKeyHistory:raw.showKeyHistory!==false
   };
   const dialog=$('#cg50-settings-dialog'), tools=$('header .tools');
   if (!dialog || !tools) return;
@@ -586,12 +628,20 @@ if(!window.CG50DirectFrames)frame();
   expandButton.id='cg50-expand-button';
   tools.prepend(miniButton);
   tools.prepend(expandButton);
-  let saved=false;
-  try {saved=localStorage.getItem('cg50-mini')==='true';} catch(_) {}
-  let mini=typeof window.CG50NativeCompact==='boolean'
-    ?window.CG50NativeCompact:saved;
+  const touch=navigator.maxTouchPoints>0;
+  const ipad=/iPad/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&touch&&!/iPhone|iPod|Android/i.test(navigator.userAgent));
+  const screenSides=[screen.width,screen.height].sort((a,b)=>a-b);
+  const miniTablet=ipad&&screenSides[0]>=700&&screenSides[0]<=768&&screenSides[1]<=1133;
+  let preferred=miniTablet||window.CG50NativeCompact===true;
+  try {
+    const saved=localStorage.getItem('cg50-mini');
+    if(saved!==null)preferred=saved==='true';
+  }catch{}
+  const portrait=matchMedia('(orientation: portrait)');
+  const mobile=ipad||matchMedia('(pointer: coarse)').matches||/Android|iPhone|iPod|Mobile/i.test(navigator.userAgent);
+  let mini=preferred;
   const rect=device.getBoundingClientRect();
-  const ratio=rect.width>0&&rect.height>0?rect.width/rect.height:0.47;
+  const ratio=rect.width>0&&rect.height>0?rect.width/rect.height:0.5014;
   document.documentElement.style.setProperty('--cg50-device-ratio',String(ratio));
   function english(){return document.documentElement.lang.startsWith('en');}
   function labels(){
@@ -603,13 +653,16 @@ if(!window.CG50DirectFrames)frame();
     const height=header?header.getBoundingClientRect().height:64;
     document.documentElement.style.setProperty('--cg50-mini-header',height+'px');
   }
-  function apply(value){
+  function apply(value,remember=true){
     if(typeof releaseAll==='function') releaseAll();
     mini=!!value;
     document.body.classList.toggle('cg50-mini',mini);
     miniButton.setAttribute('aria-pressed',String(mini));
     window.CG50NativeCompact=mini;
-    try {localStorage.setItem('cg50-mini',String(mini));} catch(_) {}
+    if(remember){
+      preferred=mini;
+      try {localStorage.setItem('cg50-mini',String(mini));} catch(_) {}
+    }
     labels();size();
     try {
       window.webkit.messageHandlers.native.postMessage({
@@ -673,7 +726,9 @@ if(!window.CG50DirectFrames)frame();
   },true);
   window.addEventListener('blur',reset);
   document.addEventListener('visibilitychange',reset);
-  apply(mini);
+  function applyOrientation(){apply((mobile&&portrait.matches)||preferred,false);}
+  if(mobile)portrait.addEventListener('change',applyOrientation);
+  applyOrientation();
 })();
 
 </script>
@@ -684,7 +739,7 @@ if(!window.CG50DirectFrames)frame();
   const root=document.documentElement;
   const main=document.querySelector('main');
   const record=document.querySelector('.record');
-  const ratio=655/1375;
+  const ratio=726/1448;
   let pending=false;
   const number=value=>parseFloat(value)||0;
   function fit(){
@@ -694,9 +749,9 @@ if(!window.CG50DirectFrames)frame();
     const height=main.clientHeight-number(style.paddingTop)-number(style.paddingBottom);
     const mini=document.body.classList.contains('cg50-mini');
     const stacked=!mini&&matchMedia('(max-width:600px)').matches;
-    const gap=number(style.gap);
+    const gap=number(style.columnGap);
     const deviceWidth=Math.max(1,Math.floor(Math.min(
-      mini?width:stacked?width:width*.4,
+      mini||stacked?width:width*.4,
       mini?Infinity:360,
       Math.max(1,height-1)*(stacked?.55:1)*ratio
     )));

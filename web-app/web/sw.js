@@ -1,7 +1,7 @@
 
 "use strict";
-const RELEASE={"app": "CG50 Pro Max", "version": "1.2.6", "releaseId": "v1.2.6-public-20261119", "graphicsAcceleration": true, "notesZh": ["修复了你布满裂痕的心❤️"], "notesEn": ["Mended your cracked heart ❤️"], "fullRefresh": true, "preserveProgress": true};
-const FILES=["build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "reset-manifest.json"];
+const RELEASE={"app": "CG50 Pro Max", "version": "1.3.2", "releaseId": "v1.3.2-public-20261119", "graphicsAcceleration": true, "notesZh": ["加入了一个新角色"], "notesEn": ["Added a new character"], "fullRefresh": true, "preserveProgress": true};
+const FILES=["build-info.json", "calculator-front.png", "cg50-brand.js", "cg50-display.js", "cg50-factory-reset.js", "cg50-features.js", "cg50-update.js", "cg50.wasm", "defaults/cg50_state.bin", "defaults/flash_full.bin", "icon-180.png", "icon-192.png", "icon-512.png", "index.html", "ipad-adapter.js", "manifest.webmanifest", "sw.js", "version.json", "wasm_exec.js", "worker.js", "tutorial.js", "tutorial.css", "guide-down-left-steep.png", "guide-down-left.png", "guide-down-right-steep.png", "guide-down-right.png", "guide-down.png", "guide-heart.png", "guide-idle.png", "guide-left-down.png", "guide-left-up.png", "guide-left.png", "guide-right-down.png", "guide-right-up.png", "guide-right.png", "guide-up-left-steep.png", "guide-up-left.png", "guide-up-right-steep.png", "guide-up-right.png", "guide-up.png", "reset-manifest.json"];
 const BASE=new URL("./",self.location.href).href;
 const CACHE="cg50-release-"+RELEASE.releaseId;
 const META="cg50-program-pointer-v1";
@@ -64,17 +64,52 @@ async function exclusive(owner){
  if(clients.some(c=>c.id!==owner&&[new URL(BASE).pathname,new URL("index.html",BASE).pathname].includes(new URL(c.url).pathname)))
   fail("OTHER_WINDOWS");
 }
-async function build(name,progress=()=>{}){
+const isTutorial=path=>path==='tutorial.js'||path==='tutorial.css'||path.startsWith('guide-');
+async function cacheVerified(cache,f,signal){
+ const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),120000);
+ const cancel=()=>abort.abort();
+ signal?.addEventListener("abort",cancel,{once:true});
+ try{
+  const u=new URL(f.path,BASE);
+  const r=await fetch(u,{cache:"no-store",signal:abort.signal});
+  if(!r.ok)fail("NETWORK");
+  const bytes=await r.arrayBuffer();
+  if(bytes.byteLength!==f.size)fail("VERIFY");
+  const hash=await crypto.subtle.digest("SHA-256",bytes);
+  const hex=[...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("");
+  if(hex!==f.sha256)fail("VERIFY");
+  if(signal?.aborted)fail("NETWORK");
+  const headers=new Headers(r.headers);
+  for(const h of ["content-encoding","content-length","transfer-encoding"])headers.delete(h);
+  await cache.put(u,new Response(bytes,{headers}));
+ }finally{
+  clearTimeout(timeout);
+  signal?.removeEventListener("abort",cancel);
+ }
+}
+// Share a verified download between a foreground request and background prefetch.
+const tutorialDownloads=new Map();
+async function tutorialFile(name,cache,file){
+ const url=new URL(file.path,BASE),cached=await cache.match(url);
+ if(cached)return cached;
+ const key=name+'/'+file.path;
+ if(!tutorialDownloads.has(key)){
+  tutorialDownloads.set(key,cacheVerified(cache,file).finally(()=>tutorialDownloads.delete(key)));
+ }
+ await tutorialDownloads.get(key);
+ return cache.match(url);
+}
+async function build(name,progress=()=>{},coreOnly=false){
  const controller=new AbortController();
  const timer=setTimeout(()=>controller.abort(),180000);
  try{
-  return await buildFiles(name,progress,controller.signal);
+  return await buildFiles(name,progress,controller.signal,coreOnly);
  }catch(error){
   if(controller.signal.aborted)fail("NETWORK");
   throw error;
  }finally{clearTimeout(timer);}
 }
-async function buildFiles(name,progress,signal){
+async function buildFiles(name,progress,signal,coreOnly){
  const before=await latest(signal);
  if(before.releaseId!==RELEASE.releaseId)fail("VERSION_CHANGED");
  const manifest=await networkJSON(
@@ -99,27 +134,9 @@ async function buildFiles(name,progress,signal){
  try{
   let done=0;
   for(const f of manifest.files){
+   if(coreOnly&&isTutorial(f.path))continue;
    if(signal.aborted)fail("NETWORK");
-   const abort=new AbortController(),timeout=setTimeout(()=>abort.abort(),120000);
-   const cancel=()=>abort.abort();
-   signal.addEventListener("abort",cancel,{once:true});
-   try{
-    const u=new URL(f.path,BASE);
-    const r=await fetch(u,{cache:"no-store",signal:abort.signal});
-    if(!r.ok)fail("NETWORK");
-    const bytes=await r.arrayBuffer();
-    if(bytes.byteLength!==f.size)fail("VERIFY");
-    const hash=await crypto.subtle.digest("SHA-256",bytes);
-    const hex=[...new Uint8Array(hash)].map(v=>v.toString(16).padStart(2,"0")).join("");
-    if(hex!==f.sha256)fail("VERIFY");
-    if(signal.aborted)fail("NETWORK");
-    const headers=new Headers(r.headers);
-    for(const h of ["content-encoding","content-length","transfer-encoding"])headers.delete(h);
-    await cache.put(u,new Response(bytes,{headers}));
-   }finally{
-    clearTimeout(timeout);
-    signal.removeEventListener("abort",cancel);
-   }
+   await cacheVerified(cache,f,signal);
    progress(++done,manifest.files.length);
   }
   const after=await latest(signal);
@@ -134,7 +151,7 @@ async function buildFiles(name,progress,signal){
 }
 self.addEventListener("install",e=>{
  e.waitUntil((async()=>{
-  await build(CACHE);
+  await build(CACHE,undefined,true);
   if(!self.registration.active)await self.skipWaiting();
  })());
 });
@@ -160,6 +177,13 @@ self.addEventListener("message",e=>{
    if(mutatingFactoryCommand){
     if(factoryCommandBusy)fail("UPDATE_BUSY");
     factoryCommandBusy=true;acquired=true;
+   }
+   if(m?.type==="CACHE_TUTORIAL"){
+    if(m.releaseId!==RELEASE.releaseId)fail("VERSION_CHANGED");
+    const name=await selected(),cache=await caches.open(name);
+    const manifest=await (await cache.match(new URL("reset-manifest.json",BASE))).json();
+    for(const f of manifest.files.filter(f=>isTutorial(f.path)))await tutorialFile(name,cache,f);
+    reply({ok:true});return;
    }
    if(m==="check-offline"){
     const c=await caches.open(await selected());
@@ -227,7 +251,14 @@ self.addEventListener("fetch",e=>{
    const meta=await caches.open(META),lr=await meta.match(LOCK);
    if(lr){const lock=await lr.json();if(lock.until>Date.now())return new Response('<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="refresh" content="2"><title>CG50 Pro Max</title><p style="font:18px system-ui;padding:24px">计算器正在恢复初始状态，请稍候…</p>',{headers:{"Content-Type":"text/html; charset=utf-8","Cache-Control":"no-store"}});await meta.delete(LOCK);}
   }
-  const c=await caches.open(await selected());
-  return await c.match(u)||fetch(r);
+  const name=await selected(),c=await caches.open(name);
+  const hit=await c.match(u);
+  if(hit)return hit;
+  const path=u.href.slice(BASE.length);
+  if(isTutorial(path)&&FILES.includes(path)){
+   const manifest=await (await c.match(new URL("reset-manifest.json",BASE))).json();
+   return tutorialFile(name,c,manifest.files.find(f=>f.path===path));
+  }
+  return fetch(r);
  })());
 });

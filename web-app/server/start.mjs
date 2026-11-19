@@ -23,7 +23,7 @@ for (const file of manifest.files) {
 const local = process.argv.includes('--local');
 const port = Number(process.env.PORT || (local ? 8089 : 3000));
 if (!Number.isInteger(port) || port < 1 || port > 65535) throw Error('Invalid PORT');
-const mime = {'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json','.wasm':'application/wasm','.png':'image/png','.bin':'application/octet-stream'};
+const mime = {'.css':'text/css; charset=utf-8','.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.webmanifest':'application/manifest+json','.wasm':'application/wasm','.png':'image/png','.bin':'application/octet-stream'};
 const server = http.createServer(async (request, response) => {
   try {
     const url = new URL(request.url, 'http://localhost');

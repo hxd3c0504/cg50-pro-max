@@ -207,7 +207,10 @@ for(const type of ["keydown","keyup"])window.addEventListener(type,e=>{
 },true);
 function labels(){
  const button=document.getElementById("cg50-reload-config");
- if(button)button.textContent=text("重载配置文件","Reload configuration");
+ if(button){
+  button.textContent=text("重载配置","Reload config");
+  button.title=text("重载配置文件","Reload configuration");
+ }
 }
 async function ack(){
  let result;

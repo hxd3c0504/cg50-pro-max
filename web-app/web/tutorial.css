@@ -1,0 +1,34 @@
+#device .lesson-target{z-index:4;border:3px solid #fff582;background:#fbe34d30;box-shadow:0 0 0 2px #125eaa,0 0 14px #fff582}
+.screen-frame{position:relative}.lesson-slot{position:absolute;z-index:3;pointer-events:none;border:2px solid #fff582;box-shadow:0 0 0 2px #125eaa;border-radius:3px}.lesson-slot[hidden]{display:none}
+
+#lesson-coach{--lesson-fit-width:min(var(--lesson-avatar-width),70vw,calc((100dvh - 104px) * 0.6875));position:fixed;z-index:12;width:var(--lesson-fit-width);pointer-events:none;user-select:none}
+#lesson-coach[hidden]{display:none}
+#lesson-coach>div{position:fixed;box-sizing:border-box;width:max-content;max-width:min(32rem,calc(100vw - 12px));background:#fffaf1;color:#302b23;border:1px solid #c5b79c;border-radius:10px;padding:8px 11px;box-shadow:0 2px 7px #2221}
+#lesson-coach img{display:block;width:100%;height:auto;aspect-ratio:88/128;object-fit:contain}
+#lesson-coach strong{font-size:12px;color:#776747}
+#lesson-coach p{font-size:15px;line-height:1.5;margin:3px 0 0;overflow-wrap:anywhere}
+#lesson-coach mark{background:#ffe6a6;color:#482e13;font-weight:700;border-radius:3px}
+
+#lesson-coach img{pointer-events:auto;touch-action:none;cursor:grab;-webkit-user-drag:none}
+#lesson-coach img:active{cursor:grabbing}
+.lesson-size{position:relative;display:grid;grid-template-columns:1fr auto auto;align-items:center;gap:6px}
+.lesson-size input[type=range]{grid-column:1/-1;width:100%;touch-action:pan-y}
+.lesson-size img{--lesson-fit-width:min(var(--lesson-avatar-width),55vw,calc(52dvh * 0.6875));position:absolute;right:0;bottom:100%;width:var(--lesson-fit-width);height:auto;aspect-ratio:88/128;object-fit:contain;pointer-events:none}
+.lesson-size img[hidden]{display:none}
+
+#lesson-directory{position:fixed;z-index:22;box-sizing:border-box;width:min(292px,calc(100vw - 12px));overflow:auto;background:var(--cg-panel,#fff);color:inherit;border:1px solid #a8b9ce;border-radius:12px;padding:10px;box-shadow:0 8px 26px #16253630;animation:lesson-drop .17s ease-out}
+#lesson-directory strong{display:block;font-size:15px;padding:2px 8px 7px}
+#lesson-directory button{display:block;width:100%;min-height:36px;text-align:left;background:transparent;color:inherit;border:0;border-radius:6px;padding:7px 8px;font:inherit}
+#lesson-directory button:hover,#lesson-directory button:focus-visible{background:#799fc633}
+@keyframes lesson-drop{from{opacity:0;transform:translateY(-7px)}}
+@media(prefers-reduced-motion:reduce){#lesson-directory{animation:none}}
+
+.lesson-size-reset{font:inherit;font-size:12px;padding:3px 8px;min-height:26px;border-radius:6px;cursor:pointer}
+
+#lesson-coach.playing-heart>div{visibility:hidden}
+#lesson-coach.playing-heart img{opacity:0;cursor:default}
+.lesson-heart{display:none}
+#lesson-coach.playing-heart .lesson-heart{
+ display:block;position:absolute;top:0;left:var(--heart-left);height:100%;width:auto;
+ pointer-events:auto;touch-action:none;
+}

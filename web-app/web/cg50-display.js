@@ -35,7 +35,9 @@ function paint(){
 function schedule(){
   if(!queued){queued=true;raf=requestAnimationFrame(paint);}
 }
-window.CG50PaintFrame=c=>{source=c;schedule();};
+let regular=null,practice=null;
+window.CG50PaintFrame=c=>{regular=c;if(!practice){source=c;schedule();}};
+window.CG50PracticeFrame=c=>{practice=c;source=c||regular;schedule();};
 function redraw(){
  if(raf)cancelAnimationFrame(raf);
  raf=0;queued=false;schedule();
@@ -52,6 +54,7 @@ function install(){
     if(getComputedStyle(parent).position==="static")
       parent.style.position="relative";
     const canvas=document.createElement("canvas");
+    canvas.width=canvas.height=0;
     canvas.setAttribute("aria-hidden","true");
     canvas.style.cssText="position:absolute;pointer-events:none;object-fit:contain;background:#000;z-index:1;image-rendering:pixelated;";
     parent.append(canvas);
@@ -63,18 +66,6 @@ function install(){
       observer.observe(image);observer.observe(parent);
     }
   }
-  const capture=document.getElementById("capture");
-  if(capture)capture.onclick=()=>{
-    if(!source)return;
-    const c=document.createElement("canvas");c.width=384;c.height=216;
-    c.getContext("2d").drawImage(source,0,0,384,216);
-    c.toBlob(blob=>{
-      if(!blob)return;
-      const url=URL.createObjectURL(blob),a=document.createElement("a");
-      a.href=url;a.download="CG50-Pro-Max-"+Date.now()+".png";
-      a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);
-    },"image/png");
-  };
   window.addEventListener("resize",schedule);
   schedule();
 }
